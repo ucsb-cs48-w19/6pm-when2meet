@@ -5,7 +5,7 @@
 
 ### One-sentence description of the project
 
-When-2-meet is a webapp to help groups find an optimal time to meet
+When-2-meet is a webapp to help groups find an optimal time to meet.
 
 ### Additional information about the project
 
@@ -15,12 +15,9 @@ TODO: Write a compelling/creative/informative project description / summary
 ## Installation
 
 ### Prerequisites
-
-TODO: List what a user needs to have installed before running the installation instructions below (e.g., git, which versions of Ruby/Rails)
-
-### Gems
-
-TODO: List which gems you added to the project, and the purpose each gem serves in your app.
+Python Flask
+PostgreSQL
+Pip
 
 ### Installation Steps
 
