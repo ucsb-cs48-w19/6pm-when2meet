@@ -9,8 +9,7 @@ When-2-meet is a webapp to help groups find an optimal time to meet.
 
 ### Additional information about the project
 
-TODO: Write a compelling/creative/informative project description / summary
-
+The web app is a convenient way for people to setup the perfect meeting time. The UI/UX is intuitive and our algorithm takes into account even small gaps of availability to provide the user with the optimal time to meet.
 
 ## Installation
 
@@ -20,21 +19,26 @@ PostgreSQL
 Pip
 
 ### Installation Steps
-
-TODO: Describe the installation process (making sure you mention `bundle install`).
-Instructions need to be such that a user can just copy/paste the commands to get things set up and running. 
-
+- Setup a virtual environment in your project folder and install dependencies
+  - Make sure you have installed virtualenv on your computer ```pip install virtualenv```
+```
+$ cd my_project_folder
+$ virtualenv venv
+$ source venv/bin/activate
+```
+- Database setup instructions - PSQL (coming soon!)
 
 ## Functionality
 
-TODO: Write usage instructions. Structuring it as a walkthrough can help structure this section,
-and showcase your features.
-
+- Meeting creator gos to the website.
+- Meeting creator setups an event with a range of dates and a set period of time.
+- Meeting creator shares the link with all the meeting attendees.
+- The meeting attendees enter in their availablilities.
+- Once all attendees have entered in their availabilities, the meeting creator will be given an optimal meeting time.
 
 ## Known Problems
 
-TODO: Describe any known issues, bugs, odd behaviors or code smells. 
-Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
+- TBD
 
 
 ## Contributing
