@@ -19,12 +19,15 @@ PostgreSQL
 Pip
 
 ### Installation Steps
+- Install pip/Python (pip comes with Python 2 >=2.7.9 or Python 3 >=3.4)
 - Setup a virtual environment in your project folder and install dependencies
-  - Make sure you have installed virtualenv on your computer ```pip install virtualenv```
+  - Make sure you have installed virtualenv on your computer: ```pip install virtualenv```
+  - Check virtualenv version with: ```virtualenv --version```
 ```
 $ cd my_project_folder
 $ virtualenv venv
 $ source venv/bin/activate
+$ pip install -r requirements.txt
 ```
 - Database setup instructions - PSQL (coming soon!)
 
