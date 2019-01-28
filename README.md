@@ -1,20 +1,11 @@
+
 # 6pm-when2meet
-Update your `README.md` using the template below. We are specifically interested in the installation instructions (e.g., all the gems, how to load real or seed data, etc.). This sample README was developed for a Rails project, so you can swap the "Gems" section of the "Installation" instructions to include add-ons that are relevant to you.
-
-
-**Make sure to check out the repo anew (potentially on a loaned laptop) and test your installation instructions.**
-
-
-
-Provide a README file with the following information:
-
-# Project Name
 
 ## Project summary
 
 ### One-sentence description of the project
 
-TODO: A 20-second elevator pitch of your project - its core idea summarized in one sentence.
+When-2-meet is a webapp to help groups find an optimal time to meet
 
 ### Additional information about the project
 
