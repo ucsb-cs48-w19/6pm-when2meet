@@ -1,5 +1,4 @@
-# 6pm-when2meet
+#Hello-World-2
+Ryan and Rafael
 
-The need: the users need to find a common time to meet, find the best time for everyone. then, find where to meet.
-
-The Value Exchange: users are happy with the result
+Heroku Link: https://when2meethw2.herokuapp.com/
