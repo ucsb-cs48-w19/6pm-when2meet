@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style type="text/css">
+			p {
+				font-weight: bold;
+				color: green;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>When 2 Meet</h1>
+		<h2>Figure out the optimal time for your team to meet.</h2>
+		<label for="event-name">Event Name:</label>
+		<input type="text" name="event-name" />
+		<br />
+		<label for="timeblock">Desired Block of Time:</label>
+		<select id="timeblock" name="timeblock">
+		</select>
+		<br />
+		<button>Create Event</button>
+	</body>
+	<script type="text/javascript">
+		window.onload = function() {
+			initSelect();
+		}
+
+		function initSelect() {
+			var select = document.getElementById("timeblock");
+			for(var i = 1; i <= 24; i++) {
+			    var opt = document.createElement('option');
+			    opt.innerHTML = i;
+			    opt.value = i;
+			    select.appendChild(opt);
+			}
+		}
+	</script>
+</html>
