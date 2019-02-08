@@ -23,12 +23,13 @@ Pip
 - Setup a virtual environment in your project folder and install dependencies
   - Make sure you have installed virtualenv on your computer: ```pip install virtualenv```
   - Check virtualenv version with: ```virtualenv --version```
-```
-$ cd my_project_folder
-$ virtualenv venv
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-```
+  =Run the following:
+	```bash
+	$ cd my_project_folder
+	$ virtualenv venv
+	$ source venv/bin/activate
+	$ pip install -r requirements.txt
+	```
 - Database setup instructions - PSQL (coming soon!)
 	- Install Postgres: ```brew install postgres``` on Mac on download it through website on Windows.
 	- Install Python's ORM for PSQL: ```pip install Flask-SQLAlchemy```
