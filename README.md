@@ -30,6 +30,14 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 - Database setup instructions - PSQL (coming soon!)
+	- Install Postgres: ```brew install postgres``` on Mac on download it through website on Windows.
+	- Install Python's ORM for PSQL: ```pip install Flask-SQLAlchemy```
+	- Install Python database adapter: ```pip install psycopg2```
+	- Run postgres with: ```psql -U postgres``` or ```psql```
+		- Run following commands to create test database:
+			```CREATE USER when2meet WITH PASSWORD '1234'```
+			```CREATE DATABASE when2meet_dev```
+
 
 ## Functionality
 
