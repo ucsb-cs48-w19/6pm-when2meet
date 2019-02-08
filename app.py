@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template
-from models import db
+from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 
@@ -19,6 +19,19 @@ POSTGRES = {
 }
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL % POSTGRES
+
+db = SQLAlchemy()
+
+#define models here
+
+class User(db.Model):
+    __tablename__ = "events"
+    id = db.Column(db.Integer, primary_key=True)
+    timeblock = db.Column(db.Integer(), nullable=False)
+    event_id = db.Column(db.Integer(), nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.id
 
 db.init_app(app)
 
