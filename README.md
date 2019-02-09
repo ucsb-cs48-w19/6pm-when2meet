@@ -28,7 +28,7 @@ Pip
 	$ cd my_project_folder
 	$ virtualenv venv
 	$ source venv/bin/activate
-	$ pip install -r requirements.txt
+	$ pip install -r requirements.txt #to install dependencies
 	```
 - Database setup instructions - PSQL (coming soon!)
 	- Install Postgres: ```brew install postgres``` on Mac on download it through website on Windows.
@@ -36,8 +36,16 @@ Pip
 	- Install Python database adapter: ```pip install psycopg2```
 	- Run postgres with: ```psql -U postgres``` or ```psql```
 		- Run following commands to create test database:
-			```CREATE USER when2meet WITH PASSWORD '1234'```
-			```CREATE DATABASE when2meet_dev```
+			```psql
+			CREATE USER when2meet WITH PASSWORD '1234';
+			CREATE DATABASE when2meet_dev;
+			```
+	- On the terminal, run the following commands to do database migrations:
+		```
+		python manage.py db init #run this line once to intialize
+		python manage.py db migrate
+		python manage.py db upgrade
+		```
 
 
 ## Functionality

@@ -1,8 +1,10 @@
 from flask import Flask
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
+from models import db
 from dotenv import load_dotenv
 import os
+import datetime
 
 load_dotenv()
 
@@ -11,29 +13,34 @@ app = Flask(__name__, static_url_path='') #/static folder to hold static files b
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 POSTGRES = {
-    'user': 'when2meet',
+    'user': 'postgres',
     'pw': '1234',
     'db': 'when2meet_dev',
     'host': 'localhost',
     'port': '5432',
 }
 
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL % POSTGRES
-
-db = SQLAlchemy()
-
-#define models here
-
-class User(db.Model):
-    __tablename__ = "events"
-    id = db.Column(db.Integer, primary_key=True)
-    timeblock = db.Column(db.Integer(), nullable=False)
-    event_id = db.Column(db.Integer(), nullable=False)
-
-    def __repr__(self):
-        return '<User %r>' % self.id
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+if DATABASE_URL is not None:
+	app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+	
 
 db.init_app(app)
+
+print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
+# print('DATABASE_URL: ', DATABASE_URL)
+# print('POSTGRES: ', POSTGRES)
+
+# test
+# def testCreateEvent():
+# 	tb = 2
+# 	ds = datetime.datetime.now()
+# 	de = datetime.datetime.now()
+# 	t = 'ABCD'
+# 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t) 
+
 
 @app.route("/")
 def index():
