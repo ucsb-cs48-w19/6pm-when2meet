@@ -9,7 +9,7 @@ class Events(db.Model):
     timeblock = db.Column(db.Integer, nullable = False)
     dateStart = db.Column(db.DateTime, nullable = False)
     dateEnd = db.Column(db.DateTime, nullable = False)
-    token = db.Column(db.Integer, nullable = False)
+    token = db.Column(db.String, nullable = False)
 
     def __repr__(self):
         return '<Event {}>'.format(self.id)
@@ -19,12 +19,7 @@ class Users(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     
-    timeRanges_id = db.Column(db.Integer, db.ForeignKey('timeranges.id'),
-        nullable=False)
-    timeranges = db.relationship('TimeRanges',
-        backref=db.backref('users', lazy=True))
-
-    event_id = db.Column(db.String, db.ForeignKey('events.id'),
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'),
         nullable=False)
     event = db.relationship('Events',
         backref=db.backref('users', lazy=True))
@@ -35,6 +30,12 @@ class Users(db.Model):
 class TimeRanges(db.Model):
     __tablename__ = 'timeranges'
     id = db.Column(db.Integer, primary_key = True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+        nullable=False)
+    user = db.relationship('Users',
+        backref=db.backref('timeranges', lazy=True))
+
     timeStart = db.Column(db.DateTime, nullable = False) 
     timeEnd = db.Column(db.DateTime, nullable = False)
 
