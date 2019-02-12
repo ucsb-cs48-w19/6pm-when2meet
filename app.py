@@ -77,7 +77,7 @@ def event(event_token):
     	t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
     	db.session.add(t)
     	db.session.commit()
-    	return redirect('/events/'+e.token)
+    	return redirect('/')
     #return 'Post %d' % post_id
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
