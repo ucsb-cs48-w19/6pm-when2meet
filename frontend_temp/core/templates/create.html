@@ -14,6 +14,7 @@
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
+  <link href="../static/css/custom.css" rel="stylesheet">
   <link href="../static/css/scrolling-nav.css" rel="stylesheet">
 
 </head>
@@ -57,34 +58,34 @@
     </div>
   </nav>
 
-  <header class="bg-primary text-white">
-    <div class="container text-center">
-      <h1>Welcome to When-2-Meet</h1>
-      <p class="lead">A great way to help groups find an optimal time to meet.</p>
-    </div>
-  </header>
+  <form action="/create-event" method = "post">
+    <header class="bg-primary text-white">
+      <div class="container text-center">
+        <h1>Enter your event name: </h1>
+        <input type="text" id="event-name" name="event-name" />
+      </div>
+    </header>
 
-  <section id="about">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 mx-auto">
-          <h2>Meeting times</h2>
-          <label for="event-name">Event Name:</label>
-          <input type="text" name="event-name" />
-          <br />
-          <label for="timeblock">Desired Block of Time:</label>
-          <select id="timeblock" name="timeblock">
-          </select>
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <label for="start">Start date:</label>
+            <input type="date" id="start" value="2019-02-11" min="2019-02-11" max="2019-12-31"><br>
+            <label for="timeblock">Desired Block of Time:</label>
+            <select id="timeblock" name="timeblock"></select><br>
+            <input type="submit" value="Submit">
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-
+    </section>
+</form>
 
 <script type="text/javascript">
 window.onload = function() {
   initSelect();
 }
+
 function initSelect() {
   var select = document.getElementById("timeblock");
   for(var i = 1; i <= 24; i++) {
@@ -121,7 +122,7 @@ function initSelect() {
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+      <p class="m-0 text-center text-white">UCSB CS48 Project: Cynthia, Jennifer, Jelani, Vir, Ryan, Rafael</p>
     </div>
     <!-- /.container -->
   </footer>

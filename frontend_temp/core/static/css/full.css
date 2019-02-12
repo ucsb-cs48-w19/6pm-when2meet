@@ -10,16 +10,12 @@ header {
   text-align: center;
   color: #ffffff;
   /* background-color: dimgray; */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('../img/ocean2.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('../img/ocean.jpg');
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
   height: 100%;
-}
-
-btn {
-  background: #ff0000
 }
 
 header btn-lg {
