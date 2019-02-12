@@ -1,0 +1,25 @@
+/*!
+ * Start Bootstrap - Full (https://startbootstrap.com/template-overviews/full)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-full/blob/master/LICENSE)
+ */
+
+
+header {
+  padding: 156px 0 100px;
+  text-align: center;
+  color: #ffffff;
+  /* background-color: dimgray; */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('../img/ocean.jpg');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+}
+
+header btn-lg {
+  border:1px  solid #F97300;
+  background:#F97300;
+  color:#fff;
+}
