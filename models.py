@@ -6,10 +6,11 @@ db = SQLAlchemy()
 class Events(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String, nullable = False)
     timeblock = db.Column(db.Integer, nullable = False)
     dateStart = db.Column(db.DateTime, nullable = False)
     dateEnd = db.Column(db.DateTime, nullable = False)
-    token = db.Column(db.String, nullable = False)
+    token = db.Column(db.String, nullable = False, unique=True)
 
     def __repr__(self):
         return '<Event {}>'.format(self.id)
