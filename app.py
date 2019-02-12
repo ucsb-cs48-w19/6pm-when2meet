@@ -71,13 +71,18 @@ def event(event_token):
     	t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
     	db.session.add(t)
     	db.session.commit()
-    	return ('event.html')
+    	return render_template('event.html')
     #return 'Post %d' % post_id
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
 	if request.method=='GET':
-		e = db.session.query(Events).filter(Events.token==event_token)
+		e = db.session.query(Events).filter(Events.token==event_token).first()
+		#e.id, user to query users, then grab all users id, query time ranges with all those user ids
+		#store time ranges somewhere
+		#do whatever u want with times
+		return render_template('getresult.html', data=data)
+
 
 
 @app.route('/create_event', methods=['GET','POST'])
