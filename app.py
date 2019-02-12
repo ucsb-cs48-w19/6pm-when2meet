@@ -1,6 +1,5 @@
 from flask import Flask
-from flask import render_template
-from flask import request
+from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from models import db
 from models import Events, Users, TimeRanges
@@ -12,7 +11,7 @@ import random, string
 
 load_dotenv()
 
-app = Flask(__name__, static_url_path='') #/static folder to hold static files by default.
+app = Flask(__name__, static_url_path='', static_folder='static') #/static folder to hold static files by default.
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
@@ -56,22 +55,29 @@ def event(event_token):
     if request.method=='GET':
     	print('in get')
     	e = db.session.query(Events).filter(Events.token==event_token).first()
+    	dateS = e.dateStart.strftime('%m/%d/%Y')
+    	dateE = e.dateEnd.strftime('%m/%d/%Y')
     	print(e)
     	if e is None:
     		return render_template('404.html')
     	else:
-    		return render_template('event.html')
+    		return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
     if request.method=='POST':
-    	e = db.session.query(Events).filter(Events.token==event_token)
+    	print('in post')
+    	e = db.session.query(Events).filter(Events.token==event_token).first()
+    	print(request.form)
     	username=request.form['username']
+    	print(username)
+    	print(e)
     	u = Users(name=username, event=e)
+    	print('printing u', u)
     	db.session.add(u)
     	start_time=request.form['start_time']
     	end_time=request.form['end_time']
     	t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
     	db.session.add(t)
     	db.session.commit()
-    	return ('event.html')
+    	return redirect('/')
     #return 'Post %d' % post_id
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
