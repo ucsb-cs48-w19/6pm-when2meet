@@ -47,10 +47,32 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 def index():
     return render_template('index.html')
 
-@app.route('/<event_id>', methods=['GET', 'POST'])
-def event(event_id):
+@app.route('/<event_token>', methods=['GET', 'POST'])
+def event(event_token):
     # show the post with the given id, the id is an integer
-    return 'Post %d' % post_id
+    if request.method=='GET':
+    	e = db.session.query(Events).filter(Events.token==event_token)
+    	if e is None:
+    		return ('404.html')
+    	return ('event.html')
+    if request.method=='POST':
+    	e = db.session.query(Events).filter(Events.token==event_token)
+    	username=request.form['username']
+    	u = Users(name=username, event=e[0])
+    	db.session.add(u)
+    	start_time=request.form['start_time']
+    	end_time=request.form['end_time']
+    	t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
+    	db.session.add(t)
+    	db.session.commit()
+    	return ('event.html')
+    #return 'Post %d' % post_id
+
+@app.route('/<event_token>/getTime', methods=['GET'])
+def get_time(event_token):
+	if request.method=='GET':
+		e = db.session.query(Events).filter(Events.token==event_token)
+
 
 @app.route('/create_event', methods=['POST'])
 def create_event():
@@ -58,7 +80,15 @@ def create_event():
 		event_name=request.form['event_name']
 		start_date=request.form['start_date']
 		end_date=request.form['end_date']
-		time_block=request.form['time_block']
+		timeblock=request.form['time_block']
+		token='ABCD' 
+		e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
+		db.session.add(e)
+		db.session.commit()
+		return render_template('index.html', token)
+
+
+
 	
 
 

@@ -20,6 +20,8 @@ class Users(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     
+    name = db.Column(db.String, nullable = False)
+
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'),
         nullable=False)
     event = db.relationship('Events',
