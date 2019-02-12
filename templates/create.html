@@ -11,33 +11,20 @@
   <title>Scrolling Nav - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="../static/css/custom.css" rel="stylesheet">
-  <link href="../static/css/scrolling-nav.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+  <link href="css/scrolling-nav.css" rel="stylesheet">
 
 </head>
-
-<!-- <body>
-  <h1>When 2 Meet</h1>
-  <h2>Figure out the optimal time for your team to meet.</h2>
-  <label for="event-name">Event Name:</label>
-  <input type="text" name="event-name" />
-  <br />
-  <label for="timeblock">Desired Block of Time:</label>
-  <select id="timeblock" name="timeblock">
-  </select>
-  <br />
-  <button>Create Event</button>
-</body> -->
 
 <body id="page-top">
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="index.html">When-2-Meet</a>
+      <a class="navbar-brand js-scroll-trigger" href="/">When-2-Meet</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -58,11 +45,11 @@
     </div>
   </nav>
 
-  <form action="/create-event" method = "post">
+  <form action="/create_event" method = "post">
     <header class="bg-primary text-white">
       <div class="container text-center">
         <h1>Enter your event name: </h1>
-        <input type="text" id="event-name" name="event-name" />
+        <input type="text" id="event_name" name="event_name" />
       </div>
     </header>
 
@@ -71,7 +58,7 @@
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
             <label for="start">Start date:</label>
-            <input type="date" id="start" value="2019-02-11" min="2019-02-11" max="2019-12-31"><br>
+            <input type="date" id="start_date" name="start_date" value="2019-02-11" min="2019-02-11" max="2019-12-31"><br>
             <label for="timeblock">Desired Block of Time:</label>
             <select id="timeblock" name="timeblock"></select><br>
             <input type="submit" value="Submit">
@@ -128,14 +115,14 @@ function initSelect() {
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="../vendor/jquery/jquery.min.js"></script>
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom JavaScript for this theme -->
-  <script src="../static/js/scrolling-nav.js"></script>
+  <script src="js/scrolling-nav.js"></script>
 
 </body>
 

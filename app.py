@@ -3,9 +3,11 @@ from flask import render_template
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from models import db
+from models import Events, Users, TimeRanges
 from dotenv import load_dotenv
 import os
 import datetime
+
 
 load_dotenv()
 
@@ -47,18 +49,21 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 def index():
     return render_template('index.html')
 
-@app.route('/<event_token>', methods=['GET', 'POST'])
+@app.route('/events/<event_token>', methods=['GET', 'POST'])
 def event(event_token):
     # show the post with the given id, the id is an integer
     if request.method=='GET':
-    	e = db.session.query(Events).filter(Events.token==event_token)
+    	print('in get')
+    	e = db.session.query(Events).filter(Events.token==event_token).first()
+    	print(e)
     	if e is None:
-    		return ('404.html')
-    	return ('event.html')
+    		return render_template('404.html')
+    	else:
+    		return render_template('event.html')
     if request.method=='POST':
     	e = db.session.query(Events).filter(Events.token==event_token)
     	username=request.form['username']
-    	u = Users(name=username, event=e[0])
+    	u = Users(name=username, event=e)
     	db.session.add(u)
     	start_time=request.form['start_time']
     	end_time=request.form['end_time']
@@ -68,24 +73,29 @@ def event(event_token):
     	return ('event.html')
     #return 'Post %d' % post_id
 
-@app.route('/<event_token>/getTime', methods=['GET'])
+@app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
 	if request.method=='GET':
 		e = db.session.query(Events).filter(Events.token==event_token)
 
 
-@app.route('/create_event', methods=['POST'])
+@app.route('/create_event', methods=['GET','POST'])
 def create_event():
+	print('in-create')
 	if request.method=='GET':
+		return render_template('create.html')
+	if request.method=='POST':
+		print('in post')
+		print(request.form)
 		event_name=request.form['event_name']
 		start_date=request.form['start_date']
-		end_date=request.form['end_date']
-		timeblock=request.form['time_block']
+		end_date=start_date
+		timeblock=request.form['timeblock']
 		token='ABCD' 
 		e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
 		db.session.add(e)
 		db.session.commit()
-		return render_template('index.html', token)
+		return render_template('token.html', token=token)
 
 
 
