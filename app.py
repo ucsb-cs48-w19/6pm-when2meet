@@ -7,6 +7,7 @@ from models import Events, Users, TimeRanges
 from dotenv import load_dotenv
 import os
 import datetime
+import random, string
 
 
 load_dotenv()
@@ -91,7 +92,8 @@ def create_event():
 		start_date=request.form['start_date']
 		end_date=start_date
 		timeblock=request.form['timeblock']
-		token='ABCD' 
+		#10 Digit/Char long Alphanumeric token generated randomly 
+		token= ''.join(random.choices(string.ascii_letters + string.digits, k=10))
 		e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
 		db.session.add(e)
 		db.session.commit()
