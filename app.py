@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from models import db
 from dotenv import load_dotenv
@@ -45,3 +46,20 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 @app.route("/")
 def index():
     return render_template('index.html')
+
+@app.route('/<event_id>', methods=['GET', 'POST'])
+def event(event_id):
+    # show the post with the given id, the id is an integer
+    return 'Post %d' % post_id
+
+@app.route('/create_event', methods=['POST'])
+def create_event():
+	if request.method=='GET':
+		event_name=request.form['event_name']
+		start_date=request.form['start_date']
+		end_date=request.form['end_date']
+		time_block=request.form['time_block']
+	
+
+
+
