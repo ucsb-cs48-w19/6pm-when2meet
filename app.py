@@ -16,7 +16,7 @@ app = Flask(__name__, static_url_path='', static_folder='static') #/static folde
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 POSTGRES = {
-    'user': 'postgres',
+    'user': 'when2meet',
     'pw': '1234',
     'db': 'when2meet_dev',
     'host': 'localhost',
@@ -28,7 +28,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 if DATABASE_URL is not None:
 	app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-	
+
 
 db.init_app(app)
 
@@ -42,7 +42,7 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 # 	ds = datetime.datetime.now()
 # 	de = datetime.datetime.now()
 # 	t = 'ABCD'
-# 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t) 
+# 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t)
 
 
 @app.route("/")
@@ -55,13 +55,13 @@ def event(event_token):
     if request.method=='GET':
     	print('in get')
     	e = db.session.query(Events).filter(Events.token==event_token).first()
-    	dateS = e.dateStart.strftime('%m/%d/%Y')
-    	dateE = e.dateEnd.strftime('%m/%d/%Y')
     	print(e)
     	if e is None:
     		return render_template('404.html')
     	else:
-    		return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
+            dateS = e.dateStart.strftime('%m/%d/%Y')
+            dateE = e.dateEnd.strftime('%m/%d/%Y')
+            return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
     if request.method=='POST':
     	print('in post')
     	e = db.session.query(Events).filter(Events.token==event_token).first()
@@ -82,8 +82,55 @@ def event(event_token):
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
-	if request.method=='GET':
-		e = db.session.query(Events).filter(Events.token==event_token)
+    # show the post with the given id, the id is an integer
+    if request.method=='GET':
+    	e = db.session.query(Events).filter(Events.token==event_token).first()
+    	if e is None:
+    		return render_template('404.html')
+    	else:
+            #print(e.name)
+            #print(e.id)
+            #grab all users with e id
+            #user.
+            users = db.session.query(Users).filter(Users.event==e).all()
+            #for loop thru users to grab ids
+            #for loop thru time ranges to grab all timeranges with that user id
+
+            times=[]
+            for u in users:
+                uid=u.id
+                #print(uid)
+                t=(db.session.query(TimeRanges).filter(TimeRanges.user_id==uid).all())
+                for i in t:
+                    times.append((i.timeStart,i.timeEnd))
+            #print(times)
+            starts=[]
+            ends =[]
+
+            for t in times:
+                starts.append(t[0].hour)
+                ends.append(t[1].hour)
+
+            #print(times[0][0].hour)
+
+            bestStart=max(starts)
+            bestEnd=min(ends)
+
+            if bestStart<12:
+                bs=str(bestStart)+":00 AM"
+            else:
+                bs = str(bestStart-12)+":00 PM"
+
+            if bestEnd<12:
+                be=str(bestEnd)+":00 AM"
+            else:
+                be = str(bestEnd-12)+":00 PM"
+
+            bestRange=""+bs+" to "+ be
+        #    print(starts)
+            #print(ends)
+            print(bestRange)
+            return render_template('getTime.html',data=bestRange,ename=e.name)
 
 
 @app.route('/create_event', methods=['GET','POST'])
@@ -98,16 +145,9 @@ def create_event():
 		start_date=request.form['start_date']
 		end_date=start_date
 		timeblock=request.form['timeblock']
-		#10 Digit/Char long Alphanumeric token generated randomly 
+		#10 Digit/Char long Alphanumeric token generated randomly
 		token= ''.join(random.choices(string.ascii_letters + string.digits, k=10))
 		e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
 		db.session.add(e)
 		db.session.commit()
 		return render_template('token.html', token=token)
-
-
-
-	
-
-
-
