@@ -14,8 +14,6 @@ load_dotenv()
 
 app = Flask(__name__, static_url_path='', static_folder='static') #/static folder to hold static files by default.
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
 POSTGRES = {
     'user': 'postgres',
     'pw': '1234',
@@ -24,13 +22,14 @@ POSTGRES = {
     'port': '5432',
 }
 
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+DATABASE_DEFAULT = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
-if DATABASE_URL is not None:
-	app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-	conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
+
+app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', DATABASE_DEFAULT)
+
+db = SQLAlchemy(app)
 
 db.init_app(app)
 
