@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 import datetime
 import random, string
+import psycopg2
 
 
 load_dotenv()
