@@ -82,8 +82,55 @@ def event(event_token):
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
-	if request.method=='GET':
-		e = db.session.query(Events).filter(Events.token==event_token)
+    # show the post with the given id, the id is an integer
+    if request.method=='GET':
+    	e = db.session.query(Events).filter(Events.token==event_token).first()
+    	if e is None:
+    		return render_template('404.html')
+    	else:
+            #print(e.name)
+            #print(e.id)
+            #grab all users with e id
+            #user.
+            users = db.session.query(Users).filter(Users.event==e).all()
+            #for loop thru users to grab ids
+            #for loop thru time ranges to grab all timeranges with that user id
+
+            times=[]
+            for u in users:
+                uid=u.id
+                #print(uid)
+                t=(db.session.query(TimeRanges).filter(TimeRanges.user_id==uid).all())
+                for i in t:
+                    times.append((i.timeStart,i.timeEnd))
+            #print(times)
+            starts=[]
+            ends =[]
+
+            for t in times:
+                starts.append(t[0].hour)
+                ends.append(t[1].hour)
+
+            #print(times[0][0].hour)
+
+            bestStart=max(starts)
+            bestEnd=min(ends)
+
+            if bestStart<12:
+                bs=str(bestStart)+":00 AM"
+            else:
+                bs = str(bestStart-12)+":00 PM"
+
+            if bestEnd<12:
+                be=str(bestEnd)+":00 AM"
+            else:
+                be = str(bestEnd-12)+":00 PM"
+
+            bestRange=""+bs+" to "+ be
+        #    print(starts)
+            #print(ends)
+            print(bestRange)
+            return render_template('getTime.html',data=bestRange,ename=e.name)
 
 
 @app.route('/create_event', methods=['GET','POST'])
