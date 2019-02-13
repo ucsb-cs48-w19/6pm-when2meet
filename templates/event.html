@@ -30,9 +30,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#about">About</a>
-          </li>
           <!--
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#services">Services</a>
@@ -50,7 +47,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <label for="name">Name:</label>
+            <h2>Event Name: {{event.name}}</h2>
+            <label for="name">Your Name:</label>
             <input type="text" name="username" id="username" />
             <p>Please enter in your availbility for {{event.timeblock}} hour(s) from {{dateS}} to {{dateE}}</p>
             <label for="start">I am availble from</label><br />
