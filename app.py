@@ -28,6 +28,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 if DATABASE_URL is not None:
 	app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+	conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
 db.init_app(app)
