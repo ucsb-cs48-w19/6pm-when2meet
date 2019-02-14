@@ -19,11 +19,11 @@ PostgreSQL
 Pip
 
 ### Installation Steps
-- Install pip/Python (pip comes with Python 2 >=2.7.9 or Python 3 >=3.4)
+- Install pip/Python (pip comes with Python)
 - Setup a virtual environment in your project folder and install dependencies
   - Make sure you have installed virtualenv on your computer: ```pip install virtualenv```
   - Check virtualenv version with: ```virtualenv --version```
-  =Run the following:
+  - Run the following:
 	```bash
 	$ cd my_project_folder
 	$ virtualenv -p python3 venv
@@ -44,6 +44,13 @@ Pip
 		python manage.py db migrate
 		python manage.py db upgrade
 		```
+- To start the app, run:
+	```bash
+		$ export FLASK_APP=app.py
+		$ flask run
+	```
+- The terminal should print out a local port to view the working web app.
+- If you try to run and get an authentication error on inserting into the database, change "user:" in the POSTGRES object in app.py to ```when2meet``` instead of ```postgres```
 
 
 ## Functionality
@@ -56,7 +63,7 @@ Pip
 
 ## Known Problems
 
-- TBD
+- None so far.
 
 
 ## Contributing
