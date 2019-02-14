@@ -35,8 +35,6 @@ if DATABASE_URL is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-db = SQLAlchemy(app)
-
 db.init_app(app)
 
 print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
