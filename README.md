@@ -26,14 +26,12 @@ Pip
   =Run the following:
 	```bash
 	$ cd my_project_folder
-	$ virtualenv venv
+	$ virtualenv -p python3 venv
 	$ source venv/bin/activate
 	$ pip install -r requirements.txt #to install dependencies
 	```
 - Database setup instructions - PSQL (coming soon!)
 	- Install Postgres: ```brew install postgres``` on Mac on download it through website on Windows.
-	- Install Python's ORM for PSQL: ```pip install Flask-SQLAlchemy```
-	- Install Python database adapter: ```pip install psycopg2```
 	- Run postgres with: ```psql -U postgres``` or ```psql```
 		- Run following commands to create test database:
 			```psql
@@ -78,5 +76,5 @@ We recommend using the MIT license: <https://choosealicense.com/licenses/mit/>
 
 The Value Exchange: users are happy with the result
 
-Heroku Link: https://stark-headland-53397.herokuapp.com/
+Heroku Link: https://when2meet-6pm.herokuapp.com/
 =======
