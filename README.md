@@ -31,7 +31,7 @@ Pip
 	$ pip install -r requirements.txt #to install dependencies
 	```
 - Database setup instructions - PSQL (coming soon!)
-	- Install Postgres: ```brew install postgres``` on Mac on download it through website on Windows.
+	- Install Postgres: ```brew install postgres``` on Mac or download it through website on Windows.
 	- Run postgres with: ```psql -U postgres``` or ```psql```
 		- Run following commands to create test database:
 			```psql

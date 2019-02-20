@@ -50,8 +50,8 @@
             <h2>Event Name: {{event.name}}</h2>
             <label for="name">Your Name:</label>
             <input type="text" name="username" id="username" />
-            <p>Please enter in your availbility for {{event.timeblock}} hour(s) from {{dateS}} to {{dateE}}</p>
-            <label for="start">I am availble from</label><br />
+            <p>Please enter in your availability for {{event.timeblock}} hour(s) from {{dateS}} to {{dateE}}</p>
+            <label for="start">I am available from</label><br />
             <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="start_time" id="start_time"><br>
             <label for="timeblock">to</label><br />
             <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
