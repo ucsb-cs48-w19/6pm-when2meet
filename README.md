@@ -51,7 +51,6 @@ Pip
 	$ flask run
 	```
 - The terminal should print out a local port to view the working web app.
-- If you try to run and get an authentication error on inserting into the database, change "user:" in the POSTGRES object in app.py to ```when2meet``` instead of ```postgres```
 
 
 ## Functionality
