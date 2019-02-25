@@ -125,7 +125,7 @@ def get_time(event_token):
             bestEnd=min(ends)
 
             if bestEnd-bestStart<timeBlock:
-                return render_template('getTime.html',data="no overlapping time because of time block",ename=e.name)
+                return render_template('getTime.html',data="not availble because the overallping time was too  short :(",ename=e.name)
 
             if bestEnd-bestStart>timeBlock:
                 bestEnd=bestStart+timeBlock
