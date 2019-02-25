@@ -17,7 +17,7 @@ app = Flask(__name__, static_url_path='', static_folder='static') #/static folde
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 POSTGRES = {
-    'user': 'postgres',
+    'user': 'when2meet',
     'pw': '1234',
     'db': 'when2meet_dev',
     'host': 'localhost',
