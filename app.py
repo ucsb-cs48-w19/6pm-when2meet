@@ -102,6 +102,9 @@ def get_time(event_token):
             #for loop thru time ranges to grab all timeranges with that user id
 
             times=[]
+
+            timeBlock=e.timeblock
+
             for u in users:
                 uid=u.id
                 #print(uid)
@@ -121,6 +124,12 @@ def get_time(event_token):
             bestStart=max(starts)
             bestEnd=min(ends)
 
+            if bestEnd-bestStart<timeBlock:
+                return render_template('getTime.html',data="no overlapping time because of time block",ename=e.name)
+
+            if bestEnd-bestStart>timeBlock:
+                bestEnd=bestStart+timeBlock
+
 
             if bestStart<12:
                 bs=str(bestStart)+":00 AM"
@@ -139,6 +148,7 @@ def get_time(event_token):
                 bestRange="not availble because there are no overlapping times"
         #    print(starts)
             #print(ends)
+            #comment
             print(bestRange)
             return render_template('getTime.html',data=bestRange,ename=e.name)
 
