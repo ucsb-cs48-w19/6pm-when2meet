@@ -32,7 +32,7 @@ Pip
 	```
 - Database setup instructions - PSQL (coming soon!)
 	- Install Postgres: ```brew install postgres``` on Mac on download it through website on Windows.
-	- Run postgres with: ```psql -U postgres``` or ```psql```
+	- Run postgres with: ```psql -U postgres``` or ```psql``` or ```psql postgres```
 		- Run following commands to create test database:
 			```psql
 			CREATE USER when2meet WITH PASSWORD '1234';
