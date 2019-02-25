@@ -33,7 +33,7 @@ Pip
 - Database setup instructions - PSQL (coming soon!)
 	- Install Postgres: ```brew install postgres``` on Mac if you have Homebrew on download it through website on Windows.
 		- If you do not have Homebrew, you can install Homebrew here: https://brew.sh/ or you can install postgres manually: https://postgresapp.com/
-	- Run postgres with: ```psql -U postgres``` or ```psql``` or ```psql postgres```
+	- Run postgres with: ```psql postgres``` or ```psql```
 		- Run following commands to create test database:
 			```psql
 			CREATE USER when2meet WITH PASSWORD '1234';
