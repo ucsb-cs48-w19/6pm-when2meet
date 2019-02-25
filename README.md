@@ -31,8 +31,9 @@ Pip
 	$ pip install -r requirements.txt #to install dependencies
 	```
 - Database setup instructions - PSQL (coming soon!)
-	- Install Postgres: ```brew install postgres``` on Mac or download it through website on Windows.
-	- Run postgres with: ```psql -U postgres``` or ```psql```
+	- Install Postgres: ```brew install postgres``` on Mac if you have Homebrew on download it through website on Windows.
+		- If you do not have Homebrew, you can install Homebrew here: https://brew.sh/ or you can install postgres manually: https://postgresapp.com/
+	- Run postgres with: ```psql postgres``` or ```psql```
 		- Run following commands to create test database:
 			```psql
 			CREATE USER when2meet WITH PASSWORD '1234';
@@ -40,7 +41,7 @@ Pip
 			```
 	- On the terminal, run the following commands to do database migrations:
 		```
-		python manage.py db init #run this line once to intialize
+		# python manage.py db init #run this line once to intialize ONLY IF no migrations folder exist
 		python manage.py db migrate
 		python manage.py db upgrade
 		```
@@ -50,7 +51,6 @@ Pip
 	$ flask run
 	```
 - The terminal should print out a local port to view the working web app.
-- If you try to run and get an authentication error on inserting into the database, change "user:" in the POSTGRES object in app.py to ```when2meet``` instead of ```postgres```
 
 
 ## Functionality
