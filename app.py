@@ -17,7 +17,7 @@ app = Flask(__name__, static_url_path='', static_folder='static') #/static folde
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 POSTGRES = {
-    'user': 'when2meet',
+    'user': 'postgres',
     'pw': '1234',
     'db': 'when2meet_dev',
     'host': 'localhost',
@@ -154,7 +154,7 @@ def create_event():
 		event_name=request.form['event_name']
 		start_date=request.form['start_date']
 		end_date=start_date
-		timeblock=request.form['timeblock']
+		timeblock=int(request.form['timeblock_hours'])*60+int(request.form['timeblock_min'])
 		#10 Digit/Char long Alphanumeric token generated randomly
 		token= ''.join(random.choices(string.ascii_letters + string.digits, k=10))
 		e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)

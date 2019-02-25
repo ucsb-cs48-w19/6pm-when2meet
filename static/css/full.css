@@ -23,3 +23,11 @@ header btn-lg {
   background:#F97300;
   color:#fff;
 }
+
+a {
+  color: #aae600;
+}
+
+a:hover {
+  color: #aae600;
+}

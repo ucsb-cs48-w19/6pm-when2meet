@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Scrolling Nav - Start Bootstrap Template</title>
+  <title>When-2-Meet</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -56,8 +56,9 @@
           <div class="col-lg-8 mx-auto text-center">
             <label for="start">Start date:</label>
             <input type="date" id="start_date" name="start_date" value="2019-02-11" min="2019-02-11" max="2019-12-31"><br>
-            <label for="timeblock">Desired Block of Time:</label>
-            <select id="timeblock" name="timeblock"></select><br>
+            <label>Desired Meeting Length: </label>
+            <input type="number" id="timeblock_hours" name="timeblock_hours" min="0" max="23"></select> hours 
+            <input type="number" id="timeblock_min" name="timeblock_min" min="0" max="59"></select> mins<br>
             <input type="submit" value="Submit">
           </div>
         </div>
