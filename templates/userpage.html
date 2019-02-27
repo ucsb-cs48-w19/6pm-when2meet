@@ -8,8 +8,6 @@ issues:
 
 bugs:
 (1) when user makes browser thinner, navbar automatically generates "menu" bar, but ours is empty, so the "menu" is useless
-
-
 -->
 
 <!DOCTYPE html>
@@ -69,7 +67,7 @@ bugs:
             <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="start_time" id="start_time"><br>
             <label for="timeblock">to</label><br />
             <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
-            <p><br><br><br></p>
+            <p><br><br></p>
             <a class="btn btn-start btn-primary btn-lg">Submit</a>
           </div>
         </div>
@@ -85,8 +83,14 @@ bugs:
 <script type="text/javascript">
 window.onload = function() {
 }
-
 </script>
+<div class="return">
+    <div class="col-lg-8 mx-auto text-left">
+        <a class="btn btn-start btn-primary btn-lg" href="/events/{{token}}"> Go back to Create a New User</a>
+        <p><br><br></p>
+    </div>
+</div>
+
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">

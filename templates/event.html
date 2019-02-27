@@ -1,3 +1,7 @@
+<!-- bugs:
+(1) field cannot be empty when user clicks submit
+(2) name that user enters should not be an already existing name -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +19,7 @@
 
   <!-- Custom styles for this template -->
   <link href="../css/custom.css" rel="stylesheet">
-  <link href="../css/basic-scrolling.css" rel="stylesheet">
+  <link href="../css/createuser.css" rel="stylesheet">
 
 </head>
 
@@ -60,9 +64,9 @@
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
             <h2>Event Name: {{event.name}}</h2>
-            <label for="name">Enter your name and click submit:</label>
+            <label for="name">Enter your name and click next:</label>
             <input type="text" name="username" id="username" />
-            <input type = "submit" value = "Submit">
+            <input type = "submit" value = "Next">
           </div>
         </div>
       </div>

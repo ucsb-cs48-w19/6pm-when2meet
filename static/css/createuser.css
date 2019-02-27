@@ -5,6 +5,7 @@ header {
   input[type=text] {
     width: 100%;
     padding: 15px;
+    text-align: center;
     margin: 5px 0 22px 0;
     display: inline-block;
     border: none;
@@ -17,5 +18,5 @@ header {
   }
   
   section[id=about] {
-    padding: 100px 0 30px;
+    padding: 100px 0 360px;
   }
