@@ -82,8 +82,24 @@ def event(event_token):
     	# t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
     	# db.session.add(t)
     	db.session.commit()
-    	return render_template('userpage.html', event=e, user=u, token=event_token)
+    	return redirect(url_for('user', event_token=event_token, user_id=str(u.id))) # return render_template('userpage.html', event=e, user=u, token=event_token)
     #return 'Post %d' % post_id
+
+@app.route('/events/<event_token>/<user_id>', methods=['GET', 'POST'])
+def user(event_token, user_id):
+    e = db.session.query(Events).filter(Events.token==event_token).first()
+    if e is None:
+        return render_template('404.html')
+    u = db.session.query(Users).filter(Users.id==user_id).first()
+    if request.method=='GET':
+        return render_template('userpage.html', event=e, user=u, token=event_token)
+    if request.method == 'POST':
+        start_time=request.form['start_time']
+        end_time=request.form['end_time']
+        t=TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
+        db.session.add(t)
+        db.session.commit()
+        return redirect(url_for('user', event_token=event_token, user_id=str(u.id)))
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):

@@ -23,7 +23,7 @@ input[type=text] {
 }
 
 input[type=text]:focus {
-  background-color: #d7f4ff;;
+  background-color: #e2e2e2;
   outline: none;
 }
 

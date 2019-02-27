@@ -1,10 +1,10 @@
 <!-- 
 issues: 
-(1) create a new link for this user's page... allow re-login?
-(2) make "submit" button work
-(3) make "getTime" button work
-(4) display already added times on the user page - get from database (?)
-(5) allow user to submit multiple times - send to database (?)
+- [x] create a new link for this user's page... allow re-login?
+- [ ] make "submit" button work
+- [ ] make "getTime" button work
+- [ ] display already added times on the user page - get from database (?)
+- [ ] allow user to submit multiple times - send to database (?)
 
 bugs:
 (1) when user makes browser thinner, navbar automatically generates "menu" bar, but ours is empty, so the "menu" is useless
@@ -23,11 +23,11 @@ bugs:
   <title>Scrolling Nav - Start Bootstrap Template</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="../css/custom.css" rel="stylesheet">
-  <link href="../css/basic-scrolling.css" rel="stylesheet">
+  <link href="../../css/custom.css" rel="stylesheet">
+  <link href="../../css/basic-scrolling.css" rel="stylesheet">
 
 </head>
 
@@ -68,7 +68,7 @@ bugs:
             <label for="timeblock">to</label><br />
             <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
             <p><br><br></p>
-            <a class="btn btn-start btn-primary btn-lg">Submit</a>
+            <input class="btn btn-start btn-primary btn-lg" type = "submit" value = "Submit">
           </div>
         </div>
       </div>
@@ -100,14 +100,14 @@ window.onload = function() {
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="../vendor/jquery/jquery.min.js"></script>
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../vendor/jquery/jquery.min.js"></script>
+  <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom JavaScript for this theme -->
-  <script src="../js/scrolling-nav.js"></script>
+  <script src="../../js/scrolling-nav.js"></script>
 
 </body>
 

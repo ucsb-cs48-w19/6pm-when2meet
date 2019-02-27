@@ -1,10 +1,14 @@
-header {
-    padding: 156px 0 100px;
+section {
+  padding: 156px 0 100px;
+  background-image: url('../img/bluffs.jpg'); /* figure out a way to load low-res img first, then high-res*/
+  background-size: cover;
+  height: 100%;
 }
 
   input[type=text] {
     width: 100%;
-    padding: 15px;
+    padding: 20px;
+    font-size: 40px;
     text-align: center;
     margin: 5px 0 22px 0;
     display: inline-block;
@@ -18,5 +22,5 @@ header {
   }
   
   section[id=about] {
-    padding: 100px 0 360px;
+    padding: 100px 0 345px;
   }
