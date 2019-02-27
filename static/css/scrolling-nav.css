@@ -1,28 +1,31 @@
-/*!
- * Start Bootstrap - Scrolling Nav (https://startbootstrap.com/template-overviews/scrolling-nav)
- * Copyright 2013-2019 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-scrolling-nav/blob/master/LICENSE)
- */
-
-
 header {
-  padding: 156px 0 100px;
+  padding: 130px 0 170px;
+  text-align: center;
+  color: white;
+  background-image: url('../img/moss.jpg'); /* figure out a way to load low-res img first, then high-res*/
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  /* background-position: center center; */
+  background-size: cover;
+  height: 100%;
 }
 
 input[type=text] {
   width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
+  padding: 20px;
+  font-size: 50px;
+  color: #616a6b;
+  margin: 5px 0 5px 0;
   display: inline-block;
   border: none;
-  background: #f1f1f1;
+  background: white;
 }
 
 input[type=text]:focus {
-  background-color: #ddd;
+  background-color: #d7f4ff;;
   outline: none;
 }
 
 section[id=about] {
-  padding: 100px 0;
+  padding: 55px 0;
 }

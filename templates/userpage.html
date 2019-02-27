@@ -1,3 +1,17 @@
+<!-- 
+issues: 
+(1) create a new link for this user's page... allow re-login?
+(2) make "submit" button work
+(3) make "getTime" button work
+(4) display already added times on the user page - get from database (?)
+(5) allow user to submit multiple times - send to database (?)
+
+bugs:
+(1) when user makes browser thinner, navbar automatically generates "menu" bar, but ours is empty, so the "menu" is useless
+
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,32 +56,35 @@
     </div>
   </nav>
 
-  <script>
-    window.onload = function(e){ 
-      var span = document.getElementById("link");
-      var a = document.createElement('a');
-      var linkText = document.createTextNode(window.location.host + "/eventstest/{{token}}");
-      a.appendChild(linkText);
-      a.href = "/eventstest/{{token}}";
-      a.setAttribute('target', '_blank');
-      span.appendChild(a);
-    }
-  </script>
-
+<!-- Page Content -->
   <form action="" method = "post">
     <section id="about">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <h2>Event Name: {{event.name}}</h2>
-            <label for="name">Enter your name and click submit:</label>
-            <input type="text" name="username" id="username" />
-            <input type = "submit" value = "Submit">
+            <h2>{{user.name}}'s Home Page</h2>
+            <p>Event Name: {{event.name}}</p>
+            <p>Please enter in your availability for {{event.timeblock}} hour(s) from {{event.dateStart.strftime('%m/%d/%Y')}} to {{event.dateEnd.strftime('%m/%d/%Y')}}</p>
+            <label for="start">I am available from</label><br />
+            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="start_time" id="start_time"><br>
+            <label for="timeblock">to</label><br />
+            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
+            <p><br><br><br></p>
+            <a class="btn btn-start btn-primary btn-lg">Submit</a>
           </div>
         </div>
       </div>
     </section>
 </form>
+
+<form action="/events/{{event.token}}/getTime">
+    <div class="col-lg-8 mx-auto text-center">
+    <input type="submit" value="GetTime" /><br><br><br>
+  </div>
+</form>
+<script type="text/javascript">
+window.onload = function() {
+}
 
 </script>
   <!-- Footer -->

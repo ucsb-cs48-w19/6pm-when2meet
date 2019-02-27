@@ -17,7 +17,7 @@ app = Flask(__name__, static_url_path='', static_folder='static') #/static folde
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 POSTGRES = {
-    'user': 'when2meet',
+    'user': 'postgres',
     'pw': '1234',
     'db': 'when2meet_dev',
     'host': 'localhost',
@@ -77,12 +77,12 @@ def event(event_token):
     	u = Users(name=username, event=e)
     	print('printing u', u)
     	db.session.add(u)
-    	# start_time=request.form['start_time']
-    	# end_time=request.form['end_time']
-    	# t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
-    	# db.session.add(t)
+    	start_time=request.form['start_time']
+    	end_time=request.form['end_time']
+    	t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
+    	db.session.add(t)
     	db.session.commit()
-    	return render_template('userpage.html', event=e, user=u)
+    	return redirect('/')
     #return 'Post %d' % post_id
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
@@ -136,7 +136,7 @@ def get_time(event_token):
             bestRange=""+bs+" to "+ be
 
             if bestEnd<=bestStart:
-                bestRange="not available because there are no overlapping times"
+                bestRange="not availble because there are no overlapping times"
         #    print(starts)
             #print(ends)
             print(bestRange)
