@@ -77,10 +77,6 @@ def event(event_token):
     	u = Users(name=username, event=e)
     	print('printing u', u)
     	db.session.add(u)
-    	# start_time=request.form['start_time']
-    	# end_time=request.form['end_time']
-    	# t = TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
-    	# db.session.add(t)
     	db.session.commit()
     	return redirect(url_for('user', event_token=event_token, user_id=str(u.id))) # return render_template('userpage.html', event=e, user=u, token=event_token)
     #return 'Post %d' % post_id
@@ -170,7 +166,7 @@ def create_event():
 		event_name=request.form['event_name']
 		start_date=request.form['start_date']
 		end_date=start_date
-		timeblock=request.form['timeblock']
+		timeblock=int(request.form['timeblock_hours'])*60+int(request.form['timeblock_min'])
 		#10 Digit/Char long Alphanumeric token generated randomly
 		token= ''.join(random.choices(string.ascii_letters + string.digits, k=10))
 		e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
