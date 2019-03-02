@@ -9,6 +9,7 @@ import os
 import datetime
 import random, string
 import psycopg2
+import math
 
 
 load_dotenv()
@@ -102,7 +103,7 @@ def overLap(tList):
 
 
     #print("returnList",returnList)
-    print("cleanRetList",cleanRetList)
+    #print("cleanRetList",cleanRetList)
     return cleanRetList
 
 @app.route("/")
@@ -152,6 +153,33 @@ def user(event_token, user_id):
         db.session.commit()
         return redirect(url_for('user', event_token=event_token, user_id=str(u.id)))
 
+def intToTime(t):
+    timeTag=""
+    time=""
+
+    if t <60:
+        if t %60 <10:
+            return "12:0"+str(t) + " AM"
+        else:
+            return "12:"+str(t) + " AM"
+    if t <12*60:
+        timeTag=" AM"
+        if t %60 <10:
+            time = str(math.trunc(t/60))+":0"+str(t % 60)+timeTag
+        else:
+            time = str(math.trunc(t/60))+":"+str(t % 60)+timeTag
+    if t>=12*60:
+        timeTag=" PM"
+        if t %60 <10:
+            time = str(math.trunc(t/60)-11)+":0"+str(t % 60)+timeTag
+        else:
+            time = str(math.trunc(t/60)-11)+":"+str(t % 60)+timeTag
+
+
+    return str(time)
+
+
+
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
     # show the post with the given id, the id is an integer
@@ -171,12 +199,47 @@ def get_time(event_token):
                 for time in t:
                     userTimes.append((time.timeStart,time.timeEnd))
                 timeList.append(userTimes)
-            if not timeList:
+            print(timeList)
+            if not timeList[0]:
                 return render_template('getTime.html',data="not avalible because nobody has input times yet",ename=e.name)
 
-            print("timeList",*timeList,sep='\n')
-            overLap(timeList)
-            bestRange="default"
+            #print("timeList",*timeList,sep='\n')
+            overlap=overLap(timeList)
+            #print(overlap)
+            if not overlap:
+                return render_template('getTime.html',data="not avalible, because there was no overlapping times",ename=e.name)
+
+            for r in overlap:
+                if r[1]-r[0]<e.timeblock:
+                    overlap.remove(r)
+
+            if not overlap:
+                return render_template('getTime.html',data="not avalible, because none of the time ranges were long enough",ename=e.name)
+
+                """
+            print(intToTime(45))
+            print(intToTime(21))
+            print(intToTime(211))
+            print(intToTime(0))
+            print(intToTime(100))
+            print(intToTime(12*60))
+            print(intToTime(60))
+            print(intToTime(149))
+            print(intToTime(300))
+            print(intToTime(12*60+1))
+            print(intToTime(24*60-1))
+            print(intToTime(12*60+13))
+            print(intToTime(12*60+65))
+            print(intToTime(12*60+23))
+            print(intToTime(12*60+53))
+            """
+
+            bestRange=""
+            for r in overlap:
+                if r != overlap[-1]:
+                    bestRange= bestRange +" "+intToTime(r[0])+" to "+intToTime(r[1]) + " and "
+                else:
+                    bestRange= bestRange +" "+intToTime(r[0])+" to "+intToTime(r[1])
             return render_template('getTime.html',data=bestRange,ename=e.name)
 
 
