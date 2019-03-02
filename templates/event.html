@@ -15,12 +15,11 @@ bugs:
   <meta name="author" content="">
 
   <title>When-2-Meet</title>
-
+  
   <!-- Bootstrap core CSS -->
-  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
   <!-- Custom styles for this template -->
-  <link href="../css/createuser.css" rel="stylesheet">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/createuser.css') }}">
 
 </head>
 
@@ -84,14 +83,12 @@ bugs:
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="../vendor/jquery/jquery.min.js"></script>
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- Plugin JavaScript -->
-  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom JavaScript for this theme -->
-  <script src="../js/scrolling-nav.js"></script>
+  <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+  <!-- Custom JavaScript for this theme -->  
+  <script src="{{ url_for('static', filename='js/scrolling-nav.js') }}"></script>
 
 </body>
 
