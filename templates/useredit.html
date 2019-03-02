@@ -1,4 +1,4 @@
-<!-- 
+ <!-- 
 issues: 
 - [x] create a new link for this user's page... allow re-login?
 - [ ] make "submit" button work
@@ -28,6 +28,16 @@ bugs:
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/custom.css') }}">
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/basic-scrolling.css') }}">
 
+  <style type="text/css">
+  	.tStart, .tEnd{
+  		color: green;
+  	}
+  	li {
+  		list-style: none;
+  	}
+  </style>
+
+
 </head>
 
 <body id="page-top">
@@ -41,13 +51,6 @@ bugs:
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <!--
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-          </li>-->
         </ul>
       </div>
     </div>
@@ -61,19 +64,28 @@ bugs:
           <div class="col-lg-8 mx-auto text-center">
             <h2>{{user.name}}'s Home Page</h2>
             <p>Event Name: {{event.name}}</p>
-            {% if submission_success %}
-                <div class="alert alert-success">
-                  <strong>Successfully added time!</strong>
-                </div>
-            {% endif %}
-            <p>Please enter in all times you are free for a {{event.timeblock//60}} hour(s) {{event.timeblock%60}} minute(s) meeting from {{event.dateStart.strftime('%m/%d/%Y')}} to {{event.dateEnd.strftime('%m/%d/%Y')}}</p>
-            <label for="start">I am available from</label><br />
-            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="start_time" id="start_time"><br>
-            <label for="timeblock">to</label><br />
-            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
-            <p><br></p>            
-            <input class="btn btn-start btn-primary btn" type="submit" value = "Add Time">
-            <a href="/events/{{event.token}}/{{user.id}}/edit"><input class="btn btn-start btn-primary btn" value="Edit Page" /></a>
+            <p>Here are all times you are free for a {{event.timeblock//60}} hour(s) {{event.timeblock%60}} minute(s) meeting from {{event.dateStart.strftime('%m/%d/%Y')}} to {{event.dateEnd.strftime('%m/%d/%Y')}}</p>
+
+            <ul id="timelist">
+            <li>
+	        	<form method="POST">
+		        </form>
+	        </li> 
+		    {%- for item in times %}
+		        <li>
+		        	<div style="display: inline-flex;">
+		        		<div style="margin: 0px 10px;">
+				        	<span class="tStart">{{ item.timeStart.strftime("%m-%d-%Y %I:%M %p") }}</span> to 
+				        	<span class="tEnd">{{ item.timeEnd.strftime("%m-%d-%Y %I:%M %p") }}</span>
+				        </div>
+			        	<form action="/deleteTime/{{item.id}}" method="POST">
+				    		<input type="submit" value="X" class="btn btn-primary btn-sm" style="background-color: red; border-color: red" />
+				        </form>
+				    </div>
+		        </li> 
+				<br />		   
+		    {%- endfor %}
+		    </ul>
           </div>
         </div>
       </div>
@@ -85,10 +97,13 @@ bugs:
     <input class="btn btn-start btn-primary btn" type="submit" value="Get Time" /><br><br>
   </div>
 </form>
-
+<script type="text/javascript">
+window.onload = function() {
+}
+</script>
 <div class="return">
     <div class="col-lg-8 mx-auto" style="text-align: center">
-        <a class="btn btn-start btn-primary btn" href="/events/{{token}}"> Go back to Create a New User</a>
+        <a class="btn btn-start btn-primary btn" href="/events/{{event.token}}/{{user.id}}"> Go back to my Userpage</a>
         <p><br><br></p>
     </div>
 </div>
@@ -102,8 +117,6 @@ bugs:
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-
-    <!-- Bootstrap core JavaScript -->
   <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- Plugin JavaScript -->

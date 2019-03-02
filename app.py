@@ -78,7 +78,7 @@ def event(event_token):
     	print('printing u', u)
     	db.session.add(u)
     	db.session.commit()
-    	return redirect(url_for('user', event_token=event_token, user_id=str(u.id))) # return render_template('userpage.html', event=e, user=u, token=event_token)
+    	return redirect(url_for('user', event_token=event_token, user_id=str(u.id), submission_success=False)) # return render_template('userpage.html', event=e, user=u, token=event_token)
     #return 'Post %d' % post_id
 
 @app.route('/events/<event_token>/<user_id>', methods=['GET', 'POST'])
@@ -88,14 +88,44 @@ def user(event_token, user_id):
         return render_template('404.html')
     u = db.session.query(Users).filter(Users.id==user_id).first()
     if request.method=='GET':
-        return render_template('userpage.html', event=e, user=u, token=event_token)
+        submission_success = False
+        if request.args.get('submission_success'):
+            submission_success = request.args.get('submission_success')
+        return render_template('userpage.html', event=e, user=u, token=event_token, submission_success=submission_success)
     if request.method == 'POST':
         start_time=request.form['start_time']
         end_time=request.form['end_time']
         t=TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
         db.session.add(t)
         db.session.commit()
-        return redirect(url_for('user', event_token=event_token, user_id=str(u.id)))
+        #return render_template('userpage.html', event=e, user=u, token=event_token, submission_success = True)
+        return redirect(url_for('user', event_token=event_token, user_id=str(u.id), submission_success=True))
+
+@app.route('/events/<event_token>/<user_id>/edit', methods=['GET', 'POST'])
+def user_edit(event_token, user_id):
+    e = db.session.query(Events).filter(Events.token==event_token).first()
+    if e is None:
+        return render_template('404.html')
+    u = db.session.query(Users).filter(Users.id==user_id).first()
+    if request.method=='GET':
+        t = db.session.query(TimeRanges).filter(u.id==TimeRanges.user_id).all()
+        print(t)
+        #timelist = []
+        #for item in t:
+
+        return render_template('useredit.html', event=e, user=u, times=t)
+
+@app.route('/deleteTime/<time_id>', methods=['POST'])
+def delete_time(time_id):
+    t = db.session.query(TimeRanges).filter(TimeRanges.id==time_id).first()
+    if t is None:
+        return render_template('404.html')
+    u = db.session.query(Users).filter(Users.id == t.user_id).first()
+    e = db.session.query(Events).filter(Events.id == u.event_id).first()
+    if request.method == 'POST':
+        db.session.delete(t)
+        db.session.commit()
+        return redirect(url_for('user_edit', event_token=e.token, user_id=str(u.id)))
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
