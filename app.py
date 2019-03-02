@@ -1,3 +1,4 @@
+
 from flask import Flask
 from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -50,6 +51,23 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 # 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t)
 
 
+def overLap(tList):
+
+
+    masterSet=[]
+    userSets=[]
+
+    for userTimes in tList:
+        ts= userTimes[0]
+        tf=userTimes[1]
+        #print(ts,tf)
+        tsMin = ts.hour*60+ts.minute
+        tfMin = tf.hour*60+ts.minute
+        print(tsMin,tfMin)
+        us= set()
+        us.add(range(tsMin,tsMin+1))
+
+    print
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -105,63 +123,22 @@ def get_time(event_token):
     	if e is None:
     		return render_template('404.html')
     	else:
-            #print(e.name)
-            #print(e.id)
-            #grab all users with e id
-            #user.
+            #print("GETING THE FUCKIGN TIME")
             users = db.session.query(Users).filter(Users.event==e).all()
-            #for loop thru users to grab ids
-            #for loop thru time ranges to grab all timeranges with that user id
-
-            times=[]
-
-            timeBlock=e.timeblock
-
+            #print(users)
+            timeList=[]
             for u in users:
                 uid=u.id
-                #print(uid)
                 t=(db.session.query(TimeRanges).filter(TimeRanges.user_id==uid).all())
-                for i in t:
-                    times.append((i.timeStart,i.timeEnd))
-            #print(times)
-            starts=[]
-            ends =[]
+                for time in t:
+                    userTimes=(time.timeStart,time.timeEnd)
+                    timeList.append(userTimes)
+            if not timeList:
+                return render_template('getTime.html',data="not avalible because nobody has input times yet",ename=e.name)
 
-            for t in times:
-                starts.append(t[0].hour)
-                ends.append(t[1].hour)
-
-            #print(times[0][0].hour)
-
-            bestStart=max(starts)
-            bestEnd=min(ends)
-
-            if bestEnd-bestStart<timeBlock:
-                return render_template('getTime.html',data="not availble because the overallping time was too  short :(",ename=e.name)
-
-            if bestEnd-bestStart>timeBlock:
-                bestEnd=bestStart+timeBlock
-
-
-            if bestStart<12:
-                bs=str(bestStart)+":00 AM"
-            else:
-                bs = str(bestStart-12)+":00 PM"
-
-            if bestEnd<12:
-                be=str(bestEnd)+":00 AM"
-            else:
-                be = str(bestEnd-12)+":00 PM"
-
-
-            bestRange=""+bs+" to "+ be
-
-            if bestEnd<=bestStart:
-                bestRange="not available because there are no overlapping times"
-        #    print(starts)
-            #print(ends)
-            #comment
-            print(bestRange)
+            #print("timeList",*timeList,sep='\n')
+            overLap(timeList)
+            bestRange="default"
             return render_template('getTime.html',data=bestRange,ename=e.name)
 
 
