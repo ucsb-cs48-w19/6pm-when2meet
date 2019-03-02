@@ -52,22 +52,59 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 
 
 def overLap(tList):
-
-
     masterSet=[]
     userSets=[]
 
-    for userTimes in tList:
-        ts= userTimes[0]
-        tf=userTimes[1]
-        #print(ts,tf)
-        tsMin = ts.hour*60+ts.minute
-        tfMin = tf.hour*60+ts.minute
-        print(tsMin,tfMin)
-        us= set()
-        us.add(range(tsMin,tsMin+1))
+    for i in range(len(tList)):
+        tset=set()
+        for tr in tList[i]:
+            #print("user ",i," ", "their times", tr)
+            st = tr[0]
+            et = tr[1]
+            smin = st.hour*60+st.minute
+            emin = et.hour*60+et.minute
+            for i in range(smin,emin+1):
+                tset.add(i)
+        #print(tset)
+        userSets.append(tset)
+    #print("userSets",userSets)
+    masterSet=userSets[0]
+    for i in range (1,len(tList)):
 
-    print
+        masterSet=masterSet.intersection(userSets[i])
+
+    #print ("masterset",masterSet)
+    masterList= list(masterSet)
+    masterList.sort()
+    #print("masterList",masterList)
+    returnList=[]
+    prev=0
+    for i in range (len(masterList)):
+
+        #print(masterList[i])
+        if i != len(masterList)-1 and masterList[i] != (masterList[i+1]-1):
+        #    print("bvreak itr upo")
+        #    print("last num",masterList[i])
+            #break it up
+            t=masterList[prev:i+1]
+            prev=i+1
+            returnList.append(t)
+        if i == len(masterList)-1:
+            #print("last index")
+            #print(prev)
+            t=masterList[prev:i+1]
+            returnList.append(t)
+
+    cleanRetList=[]
+    for l in returnList:
+        tup = (min(l),max(l))
+        cleanRetList.append(tup)
+
+
+    #print("returnList",returnList)
+    print("cleanRetList",cleanRetList)
+    return cleanRetList
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -130,13 +167,14 @@ def get_time(event_token):
             for u in users:
                 uid=u.id
                 t=(db.session.query(TimeRanges).filter(TimeRanges.user_id==uid).all())
+                userTimes=[]
                 for time in t:
-                    userTimes=(time.timeStart,time.timeEnd)
-                    timeList.append(userTimes)
+                    userTimes.append((time.timeStart,time.timeEnd))
+                timeList.append(userTimes)
             if not timeList:
                 return render_template('getTime.html',data="not avalible because nobody has input times yet",ename=e.name)
 
-            #print("timeList",*timeList,sep='\n')
+            print("timeList",*timeList,sep='\n')
             overLap(timeList)
             bestRange="default"
             return render_template('getTime.html',data=bestRange,ename=e.name)
