@@ -1,0 +1,114 @@
+<!-- 
+issues: 
+- [x] create a new link for this user's page... allow re-login?
+- [ ] make "submit" button work
+- [ ] make "getTime" button work
+- [ ] display already added times on the user page - get from database (?)
+- [ ] allow user to submit multiple times - send to database (?)
+
+bugs:
+(1) when user makes browser thinner, navbar automatically generates "menu" bar, but ours is empty, so the "menu" is useless
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Scrolling Nav - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../../css/custom.css" rel="stylesheet">
+  <link href="../../css/basic-scrolling.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="/">When-2-Meet</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <!--
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>-->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- Page Content -->
+  <form action="" method = "post">
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2>{{user.name}}'s Home Page</h2>
+            <p>Event Name: {{event.name}}</p>
+            <p>Please enter in all times you are free for a {{event.timeblock//60}} hour(s) {{event.timeblock%60}} minute(s) meeting from {{event.dateStart.strftime('%m/%d/%Y')}} to {{event.dateEnd.strftime('%m/%d/%Y')}}</p>
+            <label for="start">I am available from</label><br />
+            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="start_time" id="start_time"><br>
+            <label for="timeblock">to</label><br />
+            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
+            <p><br><br></p>
+            <input class="btn btn-start btn-primary btn-lg" type = "submit" value = "Submit">
+          </div>
+        </div>
+      </div>
+    </section>
+</form>
+
+<form action="/events/{{event.token}}/getTime">
+    <div class="col-lg-8 mx-auto text-center">
+    <input class="btn btn-start btn-primary btn-lg" type="submit" value="Get Time" /><br><br><br>
+  </div>
+</form>
+<script type="text/javascript">
+window.onload = function() {
+}
+</script>
+<div class="return">
+    <div class="col-lg-8 mx-auto text-left">
+        <a class="btn btn-start btn-primary btn-lg" href="/events/{{token}}"> Go back to Create a New User</a>
+        <p><br><br></p>
+    </div>
+</div>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">UCSB CS48 Project: Cynthia, Jennifer, Jelani, Vir, Ryan, Rafael</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../../vendor/jquery/jquery.min.js"></script>
+  <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="../../js/scrolling-nav.js"></script>
+
+</body>
+
+</html>

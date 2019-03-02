@@ -8,14 +8,13 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Scrolling Nav - Start Bootstrap Template</title>
+  <title>When-2-Meet</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/custom.css" rel="stylesheet">
-  <link href="css/scrolling-nav.css" rel="stylesheet">
+  <link href="css/create.css" rel="stylesheet">
 
 </head>
 
@@ -43,10 +42,10 @@
   </nav>
 
   <form action="/create_event" method = "post">
-    <header class="bg-primary text-white">
+    <header class="header"> <!--<header class="bg-primary text-white">-->
       <div class="container text-center">
-        <h1>Enter your event name: </h1>
-        <input type="text" id="event_name" name="event_name" />
+        <!-- <h1>Enter your event name</h1> -->
+        <input type="text" id="event_name" placeholder="Click to enter event name" name="event_name" />
       </div>
     </header>
 
@@ -54,11 +53,15 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
-            <label for="start">Start date:</label>
-            <input type="date" id="start_date" name="start_date" value="2019-02-11" min="2019-02-11" max="2019-12-31"><br>
-            <label for="timeblock">Desired Block of Time:</label>
-            <select id="timeblock" name="timeblock"></select><br>
-            <input type="submit" value="Submit">
+            <p>Please enter the date of your meeting and the desired meeting length below. </p>
+            <!-- <label for="start">Start date:</label> -->
+            <input id="date" type="date" id="start_date" name="start_date" value="2019-02-11" max="2050-12-31"><br>
+            <!-- <label>Desired Meeting Length: </label> -->
+            <br>
+            <input type="number" id="timeblock_hours" name="timeblock_hours" value="0" min="0" max="23"></select> hours 
+            <input type="number" id="timeblock_min" name="timeblock_min" value="0" min="0" max="59"></select> mins<br>
+            <br>
+            <input class="btn btn-start btn-primary btn-lg" type = "submit" value="Next">
           </div>
         </div>
       </div>
@@ -67,7 +70,24 @@
 
 <script type="text/javascript">
 window.onload = function() {
-  initSelect();
+  //initSelect();
+  //var dt = new Date();
+  //document.getElementById("todaydate").innerHTML = dt.toLocaleDateString();
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+  if(dd<10){
+          dd='0'+dd
+      } 
+      if(mm<10){
+          mm='0'+mm
+      } 
+
+  today = yyyy+'-'+mm+'-'+dd;
+  //console.log(dt);
+  document.getElementById("date").setAttribute("min", today);
+  document.getElementById("date").setAttribute("value", today);
 }
 
 function initSelect() {

@@ -1,0 +1,32 @@
+header {
+  padding: 130px 0 170px;
+  text-align: center;
+  color: white;
+  background-image: url('../img/moss.jpg'); /* figure out a way to load low-res img first, then high-res*/
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  /* background-position: center center; */
+  background-size: cover;
+  height: 100%;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 20px;
+  font-size: 50px;
+  text-align: center;
+  color: #616a6b;
+  margin: 5px 0 5px 0;
+  display: inline-block;
+  border: none;
+  background: white;
+}
+
+input[type=text]:focus {
+  background-color: #e2e2e2;
+  outline: none;
+}
+
+section[id=about] {
+  padding: 55px 0;
+}

@@ -1,0 +1,21 @@
+header {
+    padding: 156px 0 100px;
+}
+
+  input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  section[id=about] {
+    padding: 100px 0 30px;
+  }

@@ -1,3 +1,9 @@
+<!-- 
+**this is the create user page**  
+bugs:
+(1) field cannot be empty when user clicks submit
+(2) name that user enters should not be an already existing name -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,14 +14,13 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Scrolling Nav - Start Bootstrap Template</title>
+  <title>When-2-Meet</title>
 
   <!-- Bootstrap core CSS -->
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="../css/custom.css" rel="stylesheet">
-  <link href="../css/scrolling-nav.css" rel="stylesheet">
+  <link href="../css/createuser.css" rel="stylesheet">
 
 </head>
 
@@ -42,34 +47,32 @@
     </div>
   </nav>
 
+  <script>
+    window.onload = function(e){ 
+      var span = document.getElementById("link");
+      var a = document.createElement('a');
+      var linkText = document.createTextNode(window.location.host + "/eventstest/{{token}}");
+      a.appendChild(linkText);
+      a.href = "/eventstest/{{token}}";
+      a.setAttribute('target', '_blank');
+      span.appendChild(a);
+    }
+  </script>
+
   <form action="" method = "post">
     <section id="about">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
             <h2>Event Name: {{event.name}}</h2>
-            <label for="name">Your Name:</label>
-            <input type="text" name="username" id="username" />
-            <p>Please enter in your availbility for {{event.timeblock}} hour(s) from {{dateS}} to {{dateE}}</p>
-            <label for="start">I am availble from</label><br />
-            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="start_time" id="start_time"><br>
-            <label for="timeblock">to</label><br />
-            <input type="datetime-local" min="{{event.dateStart.date()}}T00:00" max="{{event.dateEnd.date()}}T23:59" value="{{event.dateStart.date()}}T00:00" name="end_time" id="end_time"><br>
-            <input type="submit" value="Submit">
+            <label for="name">Enter your name and click next:</label>
+            <input type="text" name="username" placeholder="Click to enter name" id="username" />
+            <input class="btn btn-start btn-primary btn-lg" type = "submit" value = "Next">
           </div>
         </div>
       </div>
     </section>
 </form>
-
-<form action="/events/{{event.token}}/getTime">
-    <div class="col-lg-8 mx-auto text-center">
-    <input type="submit" value="GetTime" />
-  </div>
-</form>
-<script type="text/javascript">
-window.onload = function() {
-}
 
 </script>
   <!-- Footer -->

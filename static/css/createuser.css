@@ -1,0 +1,26 @@
+section {
+  padding: 156px 0 100px;
+  background-image: url('../img/bluffs.jpg'); /* figure out a way to load low-res img first, then high-res*/
+  background-size: cover;
+  height: 100%;
+}
+
+  input[type=text] {
+    width: 100%;
+    padding: 20px;
+    font-size: 40px;
+    text-align: center;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  section[id=about] {
+    padding: 100px 0 345px;
+  }

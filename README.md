@@ -1,6 +1,11 @@
 
 # 6pm-when2meet
 
+<a href="https://travis-ci.org/ucsb-cs48-w19/6pm-when2meet">
+<img src="https://travis-ci.org//ucsb-cs48-w19/6pm-when2meet.svg?branch=master" alt="Build Status">
+</a>
+
+
 ## Project summary
 
 ### One-sentence description of the project
