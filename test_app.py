@@ -24,5 +24,5 @@ def new_event():
     return e
 
 def test_create_event(new_event):    
-    assert e.name == "First Test"
-    assert isinstance(e.dateStart,datetime.datetime)
+    assert new_event.name == "First Test"
+    assert isinstance(new_event.dateStart,datetime.datetime)
