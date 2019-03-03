@@ -61,7 +61,7 @@ bugs:
           <div class="col-lg-8 mx-auto text-center">
             <h2>{{user.name}}'s Home Page</h2>
             <p>Event Name: {{event.name}}</p>
-            {% if submission_success %}
+            {% if submission_success == 'True' %}
                 <div class="alert alert-success">
                   <strong>Successfully added time!</strong>
                 </div>

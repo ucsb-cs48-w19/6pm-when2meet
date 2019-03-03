@@ -231,20 +231,20 @@ def get_time(event_token):
                 timeList.append(userTimes)
             print(timeList)
             if not timeList[0]:
-                return render_template('getTime.html',data="not avalible because nobody has input times yet",ename=e.name)
+                return render_template('getTime.html',data="not availble because nobody has input times yet",ename=e.name)
 
             #print("timeList",*timeList,sep='\n')
             overlap=overLap(timeList)
             #print(overlap)
             if not overlap:
-                return render_template('getTime.html',data="not avalible, because there was no overlapping times",ename=e.name)
+                return render_template('getTime.html',data="not availble, because there was no overlapping times",ename=e.name)
 
             for r in overlap:
                 if r[1]-r[0]<e.timeblock:
                     overlap.remove(r)
 
             if not overlap:
-                return render_template('getTime.html',data="not avalible, because none of the time ranges were long enough",ename=e.name)
+                return render_template('getTime.html',data="not availble, because none of the time ranges were long enough",ename=e.name)
 
                 """
             print(intToTime(45))
