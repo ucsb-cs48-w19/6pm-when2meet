@@ -15,7 +15,7 @@ def new_event():
     event_name = "First Test"
     start_date = datetime.datetime.now()
     end_date = start_date
-    ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     timeblock = 1
     
     e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
