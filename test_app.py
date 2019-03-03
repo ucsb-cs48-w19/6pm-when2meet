@@ -1,5 +1,5 @@
 import pytest
-from Events import Events, User
+from events import Events, User
 import random
 import datetime
 import string
