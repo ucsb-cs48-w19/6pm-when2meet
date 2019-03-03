@@ -200,7 +200,7 @@ def get_time(event_token):
                     userTimes.append((time.timeStart,time.timeEnd))
                 timeList.append(userTimes)
             print(timeList)
-            if not timeList[0]:
+            if not timeList:
                 return render_template('getTime.html',data="not avalible because nobody has input times yet",ename=e.name)
 
             #print("timeList",*timeList,sep='\n')
@@ -216,6 +216,9 @@ def get_time(event_token):
             if not overlap:
                 return render_template('getTime.html',data="not avalible, because none of the time ranges were long enough",ename=e.name)
 
+            for i in range(len(overlap)):
+                if r[1]-r[0]>e.timeblock:
+                    overlap[i]=((r[0],r[0]+e.timeblock))
                 """
             print(intToTime(45))
             print(intToTime(21))
