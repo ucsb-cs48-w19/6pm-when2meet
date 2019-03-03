@@ -55,7 +55,9 @@
           <div class="col-lg-8 mx-auto text-center">
             <p>Please enter the date of your meeting and the desired meeting length below. </p>
             <!-- <label for="start">Start date:</label> -->
-            <input id="date" type="date" id="start_date" name="start_date" value="2019-02-11" max="2050-12-31"><br>
+            <input id="date" type="date" id="start_date" name="start_date" max="2050-12-31">
+            <p style="margin: 5px">to</p>
+            <input id="dateEnd" type="date" id="end_date" name="end_date" max="2050-12-31"><br>
             <!-- <label>Desired Meeting Length: </label> -->
             <br>
             <input type="number" id="timeblock_hours" name="timeblock_hours" value="0" min="0" max="23"></select> hours 
@@ -88,6 +90,8 @@ window.onload = function() {
   //console.log(dt);
   document.getElementById("date").setAttribute("min", today);
   document.getElementById("date").setAttribute("value", today);
+  document.getElementById("dateEnd").setAttribute("min", today);
+  document.getElementById("dateEnd").setAttribute("value", today);
 }
 
 function initSelect() {
