@@ -19,6 +19,7 @@ script:
 # Note that travis will build your system and get the coverage. 
 # It cannot display, therefore coveralls becomes important to get the coverage
 # You can also use after_success
+# Find out more about after_script and after_success 
 after_script:
   - coveralls
  
