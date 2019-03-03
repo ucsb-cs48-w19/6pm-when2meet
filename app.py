@@ -1,3 +1,4 @@
+
 from flask import Flask
 from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -8,6 +9,7 @@ import os
 import datetime
 import random, string
 import psycopg2
+import math
 
 
 load_dotenv()
@@ -49,6 +51,60 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 # 	t = 'ABCD'
 # 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t)
 
+
+def overLap(tList):
+    masterSet=[]
+    userSets=[]
+
+    for i in range(len(tList)):
+        tset=set()
+        for tr in tList[i]:
+            #print("user ",i," ", "their times", tr)
+            st = tr[0]
+            et = tr[1]
+            smin = st.hour*60+st.minute
+            emin = et.hour*60+et.minute
+            for i in range(smin,emin+1):
+                tset.add(i)
+        #print(tset)
+        userSets.append(tset)
+    #print("userSets",userSets)
+    masterSet=userSets[0]
+    for i in range (1,len(tList)):
+
+        masterSet=masterSet.intersection(userSets[i])
+
+    #print ("masterset",masterSet)
+    masterList= list(masterSet)
+    masterList.sort()
+    #print("masterList",masterList)
+    returnList=[]
+    prev=0
+    for i in range (len(masterList)):
+
+        #print(masterList[i])
+        if i != len(masterList)-1 and masterList[i] != (masterList[i+1]-1):
+        #    print("bvreak itr upo")
+        #    print("last num",masterList[i])
+            #break it up
+            t=masterList[prev:i+1]
+            prev=i+1
+            returnList.append(t)
+        if i == len(masterList)-1:
+            #print("last index")
+            #print(prev)
+            t=masterList[prev:i+1]
+            returnList.append(t)
+
+    cleanRetList=[]
+    for l in returnList:
+        tup = (min(l),max(l))
+        cleanRetList.append(tup)
+
+
+    #print("returnList",returnList)
+    #print("cleanRetList",cleanRetList)
+    return cleanRetList
 
 @app.route("/")
 def index():
@@ -127,6 +183,33 @@ def delete_time(time_id):
         db.session.commit()
         return redirect(url_for('user_edit', event_token=e.token, user_id=str(u.id)))
 
+def intToTime(t):
+    timeTag=""
+    time=""
+
+    if t <60:
+        if t %60 <10:
+            return "12:0"+str(t) + " AM"
+        else:
+            return "12:"+str(t) + " AM"
+    if t <12*60:
+        timeTag=" AM"
+        if t %60 <10:
+            time = str(math.trunc(t/60))+":0"+str(t % 60)+timeTag
+        else:
+            time = str(math.trunc(t/60))+":"+str(t % 60)+timeTag
+    if t>=12*60:
+        timeTag=" PM"
+        if t %60 <10:
+            time = str(math.trunc(t/60)-11)+":0"+str(t % 60)+timeTag
+        else:
+            time = str(math.trunc(t/60)-11)+":"+str(t % 60)+timeTag
+
+
+    return str(time)
+
+
+
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
     # show the post with the given id, the id is an integer
@@ -135,53 +218,58 @@ def get_time(event_token):
     	if e is None:
     		return render_template('404.html')
     	else:
-            #print(e.name)
-            #print(e.id)
-            #grab all users with e id
-            #user.
+            #print("GETING THE FUCKIGN TIME")
             users = db.session.query(Users).filter(Users.event==e).all()
-            #for loop thru users to grab ids
-            #for loop thru time ranges to grab all timeranges with that user id
-
-            times=[]
+            #print(users)
+            timeList=[]
             for u in users:
                 uid=u.id
-                #print(uid)
                 t=(db.session.query(TimeRanges).filter(TimeRanges.user_id==uid).all())
-                for i in t:
-                    times.append((i.timeStart,i.timeEnd))
-            #print(times)
-            starts=[]
-            ends =[]
+                userTimes=[]
+                for time in t:
+                    userTimes.append((time.timeStart,time.timeEnd))
+                timeList.append(userTimes)
+            print(timeList)
+            if not timeList[0]:
+                return render_template('getTime.html',data="not avalible because nobody has input times yet",ename=e.name)
 
-            for t in times:
-                starts.append(t[0].hour)
-                ends.append(t[1].hour)
+            #print("timeList",*timeList,sep='\n')
+            overlap=overLap(timeList)
+            #print(overlap)
+            if not overlap:
+                return render_template('getTime.html',data="not avalible, because there was no overlapping times",ename=e.name)
 
-            #print(times[0][0].hour)
+            for r in overlap:
+                if r[1]-r[0]<e.timeblock:
+                    overlap.remove(r)
 
-            bestStart=max(starts)
-            bestEnd=min(ends)
+            if not overlap:
+                return render_template('getTime.html',data="not avalible, because none of the time ranges were long enough",ename=e.name)
 
+                """
+            print(intToTime(45))
+            print(intToTime(21))
+            print(intToTime(211))
+            print(intToTime(0))
+            print(intToTime(100))
+            print(intToTime(12*60))
+            print(intToTime(60))
+            print(intToTime(149))
+            print(intToTime(300))
+            print(intToTime(12*60+1))
+            print(intToTime(24*60-1))
+            print(intToTime(12*60+13))
+            print(intToTime(12*60+65))
+            print(intToTime(12*60+23))
+            print(intToTime(12*60+53))
+            """
 
-            if bestStart<12:
-                bs=str(bestStart)+":00 AM"
-            else:
-                bs = str(bestStart-12)+":00 PM"
-
-            if bestEnd<12:
-                be=str(bestEnd)+":00 AM"
-            else:
-                be = str(bestEnd-12)+":00 PM"
-
-
-            bestRange=""+bs+" to "+ be
-
-            if bestEnd<=bestStart:
-                bestRange="not available because there are no overlapping times"
-        #    print(starts)
-            #print(ends)
-            print(bestRange)
+            bestRange=""
+            for r in overlap:
+                if r != overlap[-1]:
+                    bestRange= bestRange +" "+intToTime(r[0])+" to "+intToTime(r[1]) + " and "
+                else:
+                    bestRange= bestRange +" "+intToTime(r[0])+" to "+intToTime(r[1])
             return render_template('getTime.html',data=bestRange,ename=e.name)
 
 
