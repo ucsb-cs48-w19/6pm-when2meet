@@ -20,13 +20,23 @@ bugs:
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Scrolling Nav - Start Bootstrap Template</title>
+  <title>When-2-Meet</title>
 
   <!-- Bootstrap core CSS -->
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
   <!-- Custom styles for this template -->
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/custom.css') }}">
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/basic-scrolling.css') }}">
+
+  <script type="text/javascript">
+    window.onload = function() {
+      document.getElementById("start_time").addEventListener("change", function(){
+        var startInput = document.getElementById("start_time");
+        document.getElementById("end_time").setAttribute("min", startInput.value);
+        console.log(startInput.value);
+      });
+    }
+  </script>
 
 </head>
 
