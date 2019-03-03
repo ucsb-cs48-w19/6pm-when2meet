@@ -1,3 +1,4 @@
+import pytest
 from flask import Flask
 from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
