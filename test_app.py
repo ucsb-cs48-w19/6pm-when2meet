@@ -1,5 +1,5 @@
 import pytest
-from events import Events, User
+from models import Events, Users, TimeRanges
 import random
 import datetime
 import string
