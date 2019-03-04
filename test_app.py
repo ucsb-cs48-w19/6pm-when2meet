@@ -41,8 +41,8 @@ def new_event2():
     e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
     
     
-    return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
-
-def test_event2():
+    #return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
+    return e
+def test_event2(new_event2):
     assert new_event2.name == "Second Test"
     assert isinstance(new_event2.dateStart,datetime.datetime)
