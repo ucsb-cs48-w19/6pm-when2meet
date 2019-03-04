@@ -29,7 +29,8 @@ def new_event():
 def test_create_event(new_event):    
     assert new_event.name == "First Test"
     assert isinstance(new_event.dateStart,datetime.datetime)
-   
+
+@pytest.fixture(scope='module')
 def new_event2():
     event_name = "Second Test" 
     token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
@@ -43,6 +44,7 @@ def new_event2():
     
     #return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
     return e
+   
 def test_event2(new_event2):
     assert new_event2.name == "Second Test"
     assert isinstance(new_event2.dateStart,datetime.datetime)
