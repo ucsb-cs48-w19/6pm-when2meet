@@ -17,10 +17,19 @@ class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
         #app = Flask(__name__, static_url_path='', static_folder='static')
-        DATABASE_URL = os.environ.get("DATABASE_URL_TEST")
+        #DATABASE_URL = os.environ.get("DATABASE_URL_TEST")
+        POSTGRES = {
+            'user': 'when2meet',
+            'pw': '1234',
+            'db': 'when2meet_test',
+            'host': 'localhost',
+            'port': '5432',
+        }
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
         app.config['DEBUG'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        #app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+        #conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         db.init_app(app)
         return app
 
