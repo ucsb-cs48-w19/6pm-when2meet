@@ -48,6 +48,10 @@ class FlaskTestCases(BaseTestCase):
         e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
 
         return e
+    
+    def test_create_event(new_event):    
+        assert new_event.name == "First Test"
+        assert isinstance(new_event.dateStart,datetime.datetime)
 '''
     def test_invalid_link(self):
         db.session.add(new_event)
@@ -55,9 +59,7 @@ class FlaskTestCases(BaseTestCase):
         e = db.session.query(Events).filter(Events.token=="faketoken").first()
         self.assertNotEqual(e, none)
 '''
-    def test_create_event(new_event):    
-        assert new_event.name == "First Test"
-        assert isinstance(new_event.dateStart,datetime.datetime)
+
 
     
 '''
