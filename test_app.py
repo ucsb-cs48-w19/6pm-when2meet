@@ -17,8 +17,8 @@ class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
         app.config['DEBUG'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-        %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%('when2meet')s:\
+        %('1234')s@%('when2meet_dev')s:%('5432')s/%('when2meet_dev')s' % POSTGRES
         return app
 
     def setUp(self):
