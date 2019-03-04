@@ -23,9 +23,8 @@ def new_event():
     timeblock = 1
     
     e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
-    db.session.add(e)
-	  	db.session.commit()
-    
+    db.session.add(e)	
+    db.session.commit()
     return e
 
 def test_create_event(new_event):    
