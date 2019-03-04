@@ -28,7 +28,7 @@ def test_create_event(new_event):
     assert isinstance(new_event.dateStart,datetime.datetime)
    
 def new_event2():
-    event_name = "Second Test" 
+    new_event2.name = "Second Test" 
     token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     timeblock = 3
 
