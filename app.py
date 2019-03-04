@@ -144,7 +144,12 @@ def intToTime(t,e):
 	month = math.trunc(t/43800)+minMonth
 	day=math.trunc(t/1440)+minDay
 
-	t=t-math.trunc(t/1440)*1440-math.trunc(t/43800)*43800-math.trunc(t/525600)*525600
+
+	print("t in min",t)
+
+	t=t-(math.trunc(t/1440)*1440-math.trunc(t/43800)*43800-math.trunc(t/525600)*525600)
+
+	print("t in min after",t)
 
 	if t <60:
 		if t %60 <10:
@@ -160,9 +165,9 @@ def intToTime(t,e):
 	if t>=12*60:
 		timeTag=" PM"
 		if t %60 <10:
-			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-11)+":0"+str(t % 60)+timeTag
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-12)+":0"+str(t % 60)+timeTag
 		else:
-			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-11)+":"+str(t % 60)+timeTag
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-12)+":"+str(t % 60)+timeTag
 
 
 	return str(time)
@@ -223,7 +228,7 @@ def overLap(tList,e):
 		tup = (min(l),max(l))
 		cleanRetList.append(tup)
 
-	#print("cleanret list",cleanRetList)
+	print("cleanret list",cleanRetList)
 	return cleanRetList
 
 
