@@ -10,9 +10,9 @@ import datetime
 import random, string
 import psycopg2
 
+from project import app, db
 
 
- 
  
 @pytest.fixture(scope='module')
 def new_event():
@@ -23,8 +23,7 @@ def new_event():
     timeblock = 1
     
     e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
-    db.session.add(e)	
-    db.session.commit()
+    
     return e
 
 def test_create_event(new_event):    
