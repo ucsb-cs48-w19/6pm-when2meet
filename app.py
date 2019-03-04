@@ -40,8 +40,6 @@ if DATABASE_URL is not None:
 db.init_app(app)
 
 print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
-# print('DATABASE_URL: ', DATABASE_URL)
-# print('POSTGRES: ', POSTGRES)
 
 # test
 # def testCreateEvent():
