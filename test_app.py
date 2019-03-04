@@ -30,7 +30,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):        
         with app.app_context():
             db.create_all()
-            e = Events(name="First Test", timeblock=1, dateStart=date(2019,3,24), dateEnd=date(2019,3,24), token=''.join(random.choices(string.ascii_letters + string.digits, k=10)))
+            e = Events(name="First Test", timeblock=1, dateStart=date(2019,3,24), dateEnd=date(2019,3,24), token="easy10curl)
             db.session.add(e)
             u1 = Users(name="Akira", event=e)
             db.session.add(u1)            
@@ -58,6 +58,10 @@ class FlaskTestCases(BaseTestCase):
             self.assertTrue(response == render_template('404.html'))
 
     
+    def test_correct_get_time(self):
+        with self.client:
+            response = get_time("easy10curl")
+            self.assertEquals("The optimal time to meet is 12:00 AM to 3/4/2019 1:00 AM", response.data)
     
     
     '''
