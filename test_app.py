@@ -25,6 +25,7 @@ def new_event():
     return e
 
 def test_invalid_link():
+    app.config.from_object('config.TestConfig')
     db.create_all()
     db.add(new_event)
     db_session.commit()
