@@ -11,38 +11,6 @@ import random, string
 import psycopg2
 import unittest
 
-'''
-class BaseTestCase(unittest.TestCase):
-
-    def create_app(self):
-        app.config.from_object('config.TestConfig')
-        return app
-
-    def setUp(self):
-        db.create_all()
-        #add new event to testing database
-        db.session.add(new_event)
-        #add test users to database
-        db.session.add(Users(name="joe tester",event=new_event))
-        db.session.commit()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-'''
-@pytest.fixture(scope='module')
-def create_app(self):
-        app.config.from_object('config.TestConfig')
-        return app
- 
-@pytest.fixture(scope='module')
-def setUp(self):
-    db.create_all()
-    #add new event to testing database
-    db.session.add(new_event)
-    #add test users to database
-    db.session.add(Users(name="joe tester",event=new_event))
-    db.session.commit()
 
 @pytest.fixture(scope='module')
 def new_event():
@@ -56,8 +24,10 @@ def new_event():
     
     return e
 
-def test_invalid_link(self):
-    e = db.session.query(Events).filter(Events.token==event_token).first()
+def test_invalid_link(db_session):
+    db_session.add(new_event)
+    db_session.commit()
+    e = db.session.query(Events).filter(Events.token=="faketoken").first()
     self.assertNotEqual(e, none)
 
 def test_create_event(new_event):    
