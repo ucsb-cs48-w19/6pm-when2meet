@@ -9,9 +9,9 @@ import os
 import datetime
 import random, string
 import psycopg2
-from flask.ext.testing import TestCase
+import unittest
 
-class BaseTestCase(TestCase):
+class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
         app.config.from_object('config.TestConfig')
@@ -43,7 +43,7 @@ def new_event():
 def test_create_event(new_event):    
     assert new_event.name == "First Test"
     assert isinstance(new_event.dateStart,datetime.datetime)
-
+'''
 @pytest.fixture(scope='module')
 def new_event2():
     
@@ -61,3 +61,5 @@ def new_event2():
 def test_event2(new_event2):
     assert new_event2.name == "Second Test"
     assert isinstance(new_event2.dateStart,datetime.datetime)
+    
+'''
