@@ -23,10 +23,11 @@ class BaseTestCase(unittest.TestCase):
         if DATABASE_URL is not None:
             app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
             conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-        db.init_app(app)
+        
         return app
 
     def setUp(self):
+        db.init_app(app)
         db.create_all()
         db.session.commit()
 
