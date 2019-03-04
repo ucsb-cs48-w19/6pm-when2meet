@@ -34,7 +34,7 @@ class BaseTestCase(unittest.TestCase):
             db.session.add(e)
             u = Users(name="Akira", event=e)
             db.session.add(u)            
-            db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))            
+            db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))
             u = Users(name="Mugen", event=e)
             db.session.add(u)            
             db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))
