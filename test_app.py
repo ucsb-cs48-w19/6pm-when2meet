@@ -16,6 +16,7 @@ from app import app
 class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
+        app = Flask(__name__, static_url_path='', static_folder='static')
         DATABASE_URL = os.environ.get("DATABASE_URL")
         app.config['DEBUG'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(when2meet)s:\
@@ -23,11 +24,10 @@ class BaseTestCase(unittest.TestCase):
         if DATABASE_URL is not None:
             app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
             conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-        
+        db.init_app(app)
         return app
 
-    def setUp(self):
-        db.init_app(app)
+    def setUp(self):        
         db.create_all()
         db.session.commit()
 
