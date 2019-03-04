@@ -24,11 +24,14 @@ def new_event():
     
     return e
 
-def test_invalid_link(db_session):
-    db_session.add(new_event)
+def test_invalid_link():
+    db.create_all()
+    db.add(new_event)
     db_session.commit()
     e = db.session.query(Events).filter(Events.token=="faketoken").first()
     self.assertNotEqual(e, none)
+    db.session.remove()
+    db.drop_all()
 
 def test_create_event(new_event):    
     assert new_event.name == "First Test"
