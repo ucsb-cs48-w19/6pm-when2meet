@@ -13,32 +13,45 @@ import unittest
 from app import app
 
 
-@pytest.fixture(scope='module')
-def new_event():
-    event_name = "First Test"
-    start_date = datetime.datetime.now()
-    end_date = start_date
-    token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-    timeblock = 1
-    
-    e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
-    
-    return e
+class BaseTestCase(TestCase):
 
-def test_invalid_link():
-    app.config.from_object('config.TestConfig')
-    db.create_all()
-    db.add(new_event)
-    db_session.commit()
-    e = db.session.query(Events).filter(Events.token=="faketoken").first()
-    self.assertNotEqual(e, none)
-    db.session.remove()
-    db.drop_all()
+    def create_app(self):
+        app.config['DEBUG'] = True
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+        %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+        return app
 
-def test_create_event(new_event):    
-    assert new_event.name == "First Test"
-    assert isinstance(new_event.dateStart,datetime.datetime)
-    
+    def setUp(self):
+        db.create_all()
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+class FlaskTestCases(BaseTestCase):
+    @pytest.fixture(scope='module')
+    def new_event():
+        event_name = "First Test"
+        start_date = datetime.datetime.now()
+        end_date = start_date
+        token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        timeblock = 1
+
+        e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
+
+        return e
+
+    def test_invalid_link(self):
+        db.session.add(new_event)
+        db.session.add(Users(name="Akira", event=new_event))
+        e = db.session.query(Events).filter(Events.token=="faketoken").first()
+        self.assertNotEqual(e, none)
+
+    def test_create_event(new_event):    
+        assert new_event.name == "First Test"
+        assert isinstance(new_event.dateStart,datetime.datetime)
+
     
 '''
 @pytest.fixture(scope='module')
