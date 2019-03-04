@@ -12,7 +12,7 @@ script: true
   - nosetests --with-coverage --coverage report
   
 before_script:
-  - psql -c 'CREATE USER when2meet WITH PASSWORD '1234;' -U postgres
+  - psql -c 'CREATE USER when2meet;' -U postgres
   - psql -c 'CREATE DATABASE when2meet_test;' -U postgres
 
 # command to run tests
