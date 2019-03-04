@@ -30,7 +30,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):        
         with app.app_context():
             db.create_all()
-            e = Events(name="First Test", timeblock=1, dateStart=date(2019,3,24), dateEnd=date(2019,3,24), token="easy10curl)
+            e = Events(name="First Test", timeblock=1, dateStart=date(2019,3,24), dateEnd=date(2019,3,24), token="easy10curl")
             db.session.add(e)
             u1 = Users(name="Akira", event=e)
             db.session.add(u1)            
