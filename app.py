@@ -258,7 +258,7 @@ def get_time(event_token):
 
 			#print("timeList",*timeList,sep='\n')
 			overlap=overLap(timeList,e)
-			#print(overlap)
+			print("overlap prefilter",overlap)
 			if not overlap:
 				return render_template('getTime.html',data="not available, because there were no overlapping times",ename=e.name)
 
@@ -269,12 +269,14 @@ def get_time(event_token):
 			if not overlap:
 				return render_template('getTime.html',data="not available, because none of the time ranges were long enough",ename=e.name)
 
+
 			for i in range(len(overlap)):
+				r=overlap[i]
 				if r[1]-r[0]>e.timeblock:
 					overlap[i]=((r[0],r[0]+e.timeblock))
 
 			bestRange=""
-			#print("just befoe printolap",overlap)
+			print("just befoe printolap",overlap)
 			for i in range(len(overlap)):
 				r=overlap[i]
 				if i != len(overlap)-1:
