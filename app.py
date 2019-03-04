@@ -1,4 +1,3 @@
-
 from flask import Flask
 from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -40,8 +39,6 @@ if DATABASE_URL is not None:
 db.init_app(app)
 
 print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
-# print('DATABASE_URL: ', DATABASE_URL)
-# print('POSTGRES: ', POSTGRES)
 
 # test
 # def testCreateEvent():
@@ -140,14 +137,23 @@ def intToTime(t,e):
 	time=""
 		#smin = (st.year-minYear)*525600+(st.month-minMonth)*43800+(st.day-minDay)*1440+st.hour*60+st.minute
 		#	emin = (et.year-minYear)*525600+(et.month-minMonth)*43800+(et.day-minDay)*1440+et.hour*60+et.minute
-	year=math.trunc(t/525600)+minYear
-	month = math.trunc(t/43800)+minMonth
-	day=math.trunc(t/1440)+minDay
+
+	y = math.trunc(t/525600)
+	t=t-y*525600
+	m=math.trunc(t/43800)
+	t=t-m*43800
+	d=math.trunc(t/1440)
+	t=t-d*1440
+
+	year=y+minYear
+	month = m+minMonth
+	day=d+minDay
 
 
-	print("t in min",t)
+	#print("t in min",t)
 
-	t=t-(math.trunc(t/1440)*1440-math.trunc(t/43800)*43800-math.trunc(t/525600)*525600)
+
+	print("ymd",y,m,d)
 
 	print("t in min after",t)
 
@@ -258,7 +264,7 @@ def get_time(event_token):
 
 			#print("timeList",*timeList,sep='\n')
 			overlap=overLap(timeList,e)
-			#print(overlap)
+			print("overlap prefilter",overlap)
 			if not overlap:
 				return render_template('getTime.html',data="not available, because there were no overlapping times",ename=e.name)
 
@@ -269,12 +275,14 @@ def get_time(event_token):
 			if not overlap:
 				return render_template('getTime.html',data="not available, because none of the time ranges were long enough",ename=e.name)
 
+
 			for i in range(len(overlap)):
+				r=overlap[i]
 				if r[1]-r[0]>e.timeblock:
 					overlap[i]=((r[0],r[0]+e.timeblock))
 
 			bestRange=""
-			#print("just befoe printolap",overlap)
+			print("just befoe printolap",overlap)
 			for i in range(len(overlap)):
 				r=overlap[i]
 				if i != len(overlap)-1:
