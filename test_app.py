@@ -10,6 +10,7 @@ import datetime
 import random, string
 import psycopg2
 import unittest
+from app import app
 
 
 @pytest.fixture(scope='module')
