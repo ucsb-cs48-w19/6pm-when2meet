@@ -30,13 +30,29 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):        
         with app.app_context():
             db.create_all()
+            e = Events(name="First Test", timeblock=1, dateStart=date(2019,3,24), dateEnd=date(2019,3,24), token=''.join(random.choices(string.ascii_letters + string.digits, k=10)))
+            db.session.add(e)
+            u = Users(name="Akira", event=e)
+            db.session.add(u)            
+            db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))            
+            u = Users(name="Mugen", event=e)
+            db.session.add(u)            
+            db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))
+            u = Users(name="Jin", event=e)
+            db.session.add(u)            
+            db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))
+            u = Users(name="Fuu", event=e)
+            db.session.add(u)            
+            db.session.add(TimeRanges(user=u, timeStart = date(2019,3,24), timeEnd = date(2019,3,24))              
             db.session.commit()
-
-    def tearDown(self):
+                           
+   def tearDown(self):
         db.session.remove()
         db.drop_all()
 
 class FlaskTestCases(BaseTestCase):
+    
+    '''
     @pytest.fixture(scope='module')
     def new_event():
         event_name = "First Test"
@@ -48,17 +64,16 @@ class FlaskTestCases(BaseTestCase):
         e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
 
         return e
-    
+ 
     def test_create_event(new_event):    
         assert new_event.name == "First Test"
         assert isinstance(new_event.dateStart,datetime.datetime)
-'''
+    '''
+    
     def test_invalid_link(self):
-        db.session.add(new_event)
-        db.session.add(Users(name="Akira", event=new_event))
         e = db.session.query(Events).filter(Events.token=="faketoken").first()
         self.assertNotEqual(e, none)
-'''
+
 
 
     
