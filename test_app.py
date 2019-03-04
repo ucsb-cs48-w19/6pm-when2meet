@@ -34,12 +34,15 @@ def new_event2():
     event_name = "Second Test" 
     token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     timeblock = 3
-
     dateS = e.dateStart.strftime('6/1/2019')
     dateE = e.dateEnd.strftime('6/3/2019')
+    start_date = datetime.datetime.now()
+    end_date = start_date
+    e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
+    
     
     return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
 
-def test_event2(new_event2):
+def test_event2():
     assert new_event2.name == "Second Test"
     assert isinstance(new_event2.dateStart,datetime.datetime)
