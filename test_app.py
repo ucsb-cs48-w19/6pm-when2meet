@@ -34,16 +34,16 @@ class BaseTestCase(unittest.TestCase):
             db.session.add(e)
             u1 = Users(name="Akira", event=e)
             db.session.add(u1)            
-            db.session.add(TimeRanges(user=u1, timeStart = date(2019,3,24), timeEnd = date(2019,3,24)))
+            db.session.add(TimeRanges(user=u1, timeStart = datetime(2019,3,24,12,0,0), timeEnd = datetime(2019,3,24,17,0,0)))
             u2 = Users(name="Mugen", event=e)
             db.session.add(u2)            
-            db.session.add(TimeRanges(user=u2, timeStart = date(2019,3,24), timeEnd = date(2019,3,24)))
+            db.session.add(TimeRanges(user=u2, timeStart = datetime(2019,3,24,7,0,0), timeEnd = datetime(2019,3,24,19,0,0)))
             u3 = Users(name="Jin", event=e)
             db.session.add(u3)            
-            db.session.add(TimeRanges(user=u3, timeStart = date(2019,3,24), timeEnd = date(2019,3,24)))
+            db.session.add(TimeRanges(user=u3, timeStart = datetime(2019,3,24,11,0,0), timeEnd = datetime(2019,3,24,13,0,0)))
             u4 = Users(name="Fuu", event=e)
             db.session.add(u4)            
-            db.session.add(TimeRanges(user=u4, timeStart = date(2019,3,24), timeEnd = date(2019,3,24)))              
+            db.session.add(TimeRanges(user=u4, timeStart = datetime(2019,3,24,1,0,0), timeEnd = date(2019,3,24,23,0,0)))              
             db.session.commit()
                            
     def tearDown(self):
@@ -58,10 +58,10 @@ class FlaskTestCases(BaseTestCase):
             self.assertTrue(response == render_template('404.html'))
 
     
-    def test_correct_get_time(self):
+    def test_get_time(self):
         with self.client:
             response = get_time("easy10curl")
-            self.assertEquals("The optimal time to meet is 12:00 AM to 3/4/2019 1:00 AM", response.data)
+            self.assertEquals("12:00 PM to 3/24/2019 1:00 PM", response.data)
     
     
     '''
