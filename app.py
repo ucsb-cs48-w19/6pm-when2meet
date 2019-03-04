@@ -52,60 +52,6 @@ print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 # 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t)
 
 
-def overLap(tList):
-	masterSet=[]
-	userSets=[]
-
-	for i in range(len(tList)):
-		tset=set()
-		for tr in tList[i]:
-			#print("user ",i," ", "their times", tr)
-			st = tr[0]
-			et = tr[1]
-			smin = st.hour*60+st.minute
-			emin = et.hour*60+et.minute
-			for i in range(smin,emin+1):
-				tset.add(i)
-		#print(tset)
-		userSets.append(tset)
-	#print("userSets",userSets)
-	masterSet=userSets[0]
-	for i in range (1,len(tList)):
-
-		masterSet=masterSet.intersection(userSets[i])
-
-	#print ("masterset",masterSet)
-	masterList= list(masterSet)
-	masterList.sort()
-	#print("masterList",masterList)
-	returnList=[]
-	prev=0
-	for i in range (len(masterList)):
-
-		#print(masterList[i])
-		if i != len(masterList)-1 and masterList[i] != (masterList[i+1]-1):
-		#    print("bvreak itr upo")
-		#    print("last num",masterList[i])
-			#break it up
-			t=masterList[prev:i+1]
-			prev=i+1
-			returnList.append(t)
-		if i == len(masterList)-1:
-			#print("last index")
-			#print(prev)
-			t=masterList[prev:i+1]
-			returnList.append(t)
-
-	cleanRetList=[]
-	for l in returnList:
-		tup = (min(l),max(l))
-		cleanRetList.append(tup)
-
-
-	#print("returnList",returnList)
-	#print("cleanRetList",cleanRetList)
-	return cleanRetList
-
 @app.route("/")
 def index():
 	return render_template('index.html')
@@ -183,9 +129,22 @@ def delete_time(time_id):
 		db.session.commit()
 		return redirect(url_for('user_edit', event_token=e.token, user_id=str(u.id)))
 
-def intToTime(t):
+def intToTime(t,e):
+	eStartDate=e.dateStart
+	eEndDate=e.dateEnd		#print(eStartDate,eEndDate)
+	minYear = eStartDate.year
+	minMonth = eStartDate.month
+	minDay = eStartDate.day
+
 	timeTag=""
 	time=""
+		#smin = (st.year-minYear)*525600+(st.month-minMonth)*43800+(st.day-minDay)*1440+st.hour*60+st.minute
+		#	emin = (et.year-minYear)*525600+(et.month-minMonth)*43800+(et.day-minDay)*1440+et.hour*60+et.minute
+	year=math.trunc(t/525600)+minYear
+	month = math.trunc(t/43800)+minMonth
+	day=math.trunc(t/1440)+minDay
+
+	t=t-math.trunc(t/1440)*1440-math.trunc(t/43800)*43800-math.trunc(t/525600)*525600
 
 	if t <60:
 		if t %60 <10:
@@ -195,19 +154,77 @@ def intToTime(t):
 	if t <12*60:
 		timeTag=" AM"
 		if t %60 <10:
-			time = str(math.trunc(t/60))+":0"+str(t % 60)+timeTag
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60))+":0"+str(t % 60)+timeTag
 		else:
-			time = str(math.trunc(t/60))+":"+str(t % 60)+timeTag
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60))+":"+str(t % 60)+timeTag
 	if t>=12*60:
 		timeTag=" PM"
 		if t %60 <10:
-			time = str(math.trunc(t/60)-11)+":0"+str(t % 60)+timeTag
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-11)+":0"+str(t % 60)+timeTag
 		else:
-			time = str(math.trunc(t/60)-11)+":"+str(t % 60)+timeTag
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-11)+":"+str(t % 60)+timeTag
 
 
 	return str(time)
 
+
+def overLap(tList,e):
+	masterSet=[]
+	userSets=[]
+
+
+	eStartDate=e.dateStart
+	eEndDate=e.dateEnd
+	#print(eStartDate,eEndDate)
+
+	minYear = eStartDate.year
+	minMonth = eStartDate.month
+	minDay = eStartDate.day
+
+	#print(minYear,minMonth,minDay)
+
+	for i in range(len(tList)):
+		#print(tList[i])
+		tset=set()
+		for tr in tList[i]:
+			st = tr[0]
+			et = tr[1]
+			smin = (st.year-minYear)*525600+(st.month-minMonth)*43800+(st.day-minDay)*1440+st.hour*60+st.minute
+			emin = (et.year-minYear)*525600+(et.month-minMonth)*43800+(et.day-minDay)*1440+et.hour*60+et.minute
+			for i in range(smin,emin+1):
+				tset.add(i)
+
+		userSets.append(tset)
+
+	#print(userSets)
+
+	masterSet=userSets[0]
+	for i in range (1,len(tList)):
+
+		masterSet=masterSet.intersection(userSets[i])
+
+
+	masterList= list(masterSet)
+	masterList.sort()
+
+	returnList=[]
+	prev=0
+
+	for i in range (len(masterList)):
+		if i != len(masterList)-1 and masterList[i] != (masterList[i+1]-1):
+			t=masterList[prev:i+1]
+			prev=i+1
+			returnList.append(t)
+		if i == len(masterList)-1:
+			t=masterList[prev:i+1]
+			returnList.append(t)
+	cleanRetList=[]
+	for l in returnList:
+		tup = (min(l),max(l))
+		cleanRetList.append(tup)
+
+	#print("cleanret list",cleanRetList)
+	return cleanRetList
 
 
 @app.route('/events/<event_token>/getTime', methods=['GET'])
@@ -229,13 +246,13 @@ def get_time(event_token):
 				for time in t:
 					userTimes.append((time.timeStart,time.timeEnd))
 				timeList.append(userTimes)
-			print(timeList)
-			
+			#print(timeList)
+
 			if not timeList:
 				return render_template('getTime.html',data="not availble because nobody has input times yet",ename=e.name)
 
 			#print("timeList",*timeList,sep='\n')
-			overlap=overLap(timeList)
+			overlap=overLap(timeList,e)
 			#print(overlap)
 			if not overlap:
 				return render_template('getTime.html',data="not availble, because there was no overlapping times",ename=e.name)
@@ -250,30 +267,17 @@ def get_time(event_token):
 			for i in range(len(overlap)):
 				if r[1]-r[0]>e.timeblock:
 					overlap[i]=((r[0],r[0]+e.timeblock))
-				"""
-			print(intToTime(45))
-			print(intToTime(21))
-			print(intToTime(211))
-			print(intToTime(0))
-			print(intToTime(100))
-			print(intToTime(12*60))
-			print(intToTime(60))
-			print(intToTime(149))
-			print(intToTime(300))
-			print(intToTime(12*60+1))
-			print(intToTime(24*60-1))
-			print(intToTime(12*60+13))
-			print(intToTime(12*60+65))
-			print(intToTime(12*60+23))
-			print(intToTime(12*60+53))
-			"""
 
 			bestRange=""
-			for r in overlap:
-				if r != overlap[-1]:
-					bestRange= bestRange +" "+intToTime(r[0])+" to "+intToTime(r[1]) + " and "
+			#print("just befoe printolap",overlap)
+			for i in range(len(overlap)):
+				r=overlap[i]
+				if i != len(overlap)-1:
+					bestRange= bestRange +" "+intToTime(r[0],e)+" to "+intToTime(r[1],e) + " and "
 				else:
-					bestRange= bestRange +" "+intToTime(r[0])+" to "+intToTime(r[1])
+					bestRange= bestRange +" "+intToTime(r[0],e)+" to "+intToTime(r[1],e)
+
+
 			return render_template('getTime.html',data=bestRange,ename=e.name)
 
 
