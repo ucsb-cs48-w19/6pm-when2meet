@@ -17,13 +17,10 @@ class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
         #app = Flask(__name__, static_url_path='', static_folder='static')
-        DATABASE_URL = os.environ.get("DATABASE_URL")
+        DATABASE_URL = os.environ.get("DATABASE_URL_TEST")
         app.config['DEBUG'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' #'postgresql://%(when2meet)s:\
-       # %(1234)s@%(localhost)s:%(5432)s/%(when2meet_dev)s' % POSTGRES
-        if DATABASE_URL is not None:
-            app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         db.init_app(app)
         return app
 
@@ -51,17 +48,17 @@ class BaseTestCase(unittest.TestCase):
         db.drop_all()
 
 class FlaskTestCases(BaseTestCase):
-    #test to make sure
+    #test to make sure if visiting broken link 404 is thrown
     def test_invalid_link(self):
         with self.client:
             response = self.client('events/faketoken')
             self.assertTrue(response == render_template('404.html'))
 
-    
+    #test first event where optimal time should be 12pm-1pm
     def test_get_time(self):
         with self.client:
             response = get_time("easy10curl")
-            self.assertEquals("12:00 PM to 3/24/2019 1:00 PM", response.data)
+            self.assertEquals("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response.data)
     
     
     '''
