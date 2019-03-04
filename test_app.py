@@ -16,9 +16,13 @@ from app import app
 class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
+        DATABASE_URL = os.environ.get("DATABASE_URL")
         app.config['DEBUG'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(when2meet)s:\
         %(1234)s@%(when2meet_dev)s:%(5432)s/%(when2meet_dev)s' % POSTGRES
+        if DATABASE_URL is not None:
+            app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         return app
 
     def setUp(self):
