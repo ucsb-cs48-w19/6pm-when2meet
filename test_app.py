@@ -67,12 +67,13 @@ class FlaskTestCases(BaseTestCase):
     def test_create_event(new_event):    
         assert new_event.name == "First Test"
         assert isinstance(new_event.dateStart,datetime.datetime)
-    '''
-    def test_invalid_link(self):
-        e = db.session.query(Events).filter(Events.token=="faketoken").first()
-        self.assertNotEqual(e, none)
 
-    '''
+    def test_invalid_link(self):
+        #e = db.session.query(Events).filter(Events.token=="faketoken").first()
+        #self.assertNotEqual(e, none)
+        pass
+
+    
 
     
 '''
