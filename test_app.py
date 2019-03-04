@@ -13,7 +13,7 @@ import unittest
 from app import app
 
 
-class BaseTestCase(TestCase):
+class BaseTestCase(unittest.TestCase):
 
     def create_app(self):
         app.config['DEBUG'] = True
