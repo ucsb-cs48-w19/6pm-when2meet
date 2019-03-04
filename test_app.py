@@ -51,7 +51,16 @@ class BaseTestCase(unittest.TestCase):
         db.drop_all()
 
 class FlaskTestCases(BaseTestCase):
+    #test to make sure
+    def test_invalid_link(self):
+        with self.client:
+            response = self.client('events/faketoken')
+            self.assert response == render_template('404.html')
+
     
+    
+    
+    '''
     @pytest.fixture(scope='module')
     def new_event():
         event_name = "First Test"
@@ -68,31 +77,25 @@ class FlaskTestCases(BaseTestCase):
         assert new_event.name == "First Test"
         assert isinstance(new_event.dateStart,datetime.datetime)
 
-    def test_invalid_link(self):
-        #e = db.session.query(Events).filter(Events.token=="faketoken").first()
-        #self.assertNotEqual(e, none)
-        pass
 
     
 
-    
-'''
-@pytest.fixture(scope='module')
-def new_event2():
-    
-    event_name = "Second Test" 
-    token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-    timeblock = 3
-    dateS = dateStart.strftime('6/1/2019')
-    dateE = dateEnd.strftime('6/3/2019')
-    start_date = datetime.datetime.now()
-    end_date = start_date
-    e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
-    
-    return e
-   
-def test_event2(new_event2):
-    assert new_event2.name == "Second Test"
-    assert isinstance(new_event2.dateStart,datetime.datetime)
-    
-'''
+    @pytest.fixture(scope='module')
+    def new_event2():
+
+        event_name = "Second Test" 
+        token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        timeblock = 3
+        dateS = dateStart.strftime('6/1/2019')
+        dateE = dateEnd.strftime('6/3/2019')
+        start_date = datetime.datetime.now()
+        end_date = start_date
+        e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
+
+        return e
+
+    def test_event2(new_event2):
+        assert new_event2.name == "Second Test"
+        assert isinstance(new_event2.dateStart,datetime.datetime)
+
+    '''
