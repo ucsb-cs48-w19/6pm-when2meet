@@ -40,8 +40,3 @@ def new_event2():
 def test_event2():
     assert new_event2.name == "Second Test"
     assert isinstance(new_event2.dateStart,datetime.datetime)
-
-def new_event3():
-    event_name = "Third Test"
-    token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-    timeblock =
