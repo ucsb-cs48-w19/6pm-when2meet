@@ -26,3 +26,22 @@ def new_event():
 def test_create_event(new_event):    
     assert new_event.name == "First Test"
     assert isinstance(new_event.dateStart,datetime.datetime)
+   
+def new_event2():
+    event_name = "Second Test" 
+    token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    timeblock = 3
+
+    dateS = e.dateStart.strftime('6/1/2019')
+    dateE = e.dateEnd.strftime('6/3/2019')
+    
+    return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
+
+def test_event2():
+    assert new_event2.name == "Second Test"
+    assert isinstance(new_event2.dateStart,datetime.datetime)
+
+def new_event3():
+    event_name = "Third Test"
+    token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+    timeblock =
