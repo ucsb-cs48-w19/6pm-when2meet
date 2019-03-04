@@ -32,11 +32,12 @@ def test_create_event(new_event):
 
 @pytest.fixture(scope='module')
 def new_event2():
+    
     event_name = "Second Test" 
     token = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     timeblock = 3
-    dateS = e.dateStart.strftime('6/1/2019')
-    dateE = e.dateEnd.strftime('6/3/2019')
+    dateS = dateStart.strftime('6/1/2019')
+    dateE = dateEnd.strftime('6/3/2019')
     start_date = datetime.datetime.now()
     end_date = start_date
     e = Events(name=event_name, timeblock=timeblock, dateStart=start_date, dateEnd=end_date, token=token)
