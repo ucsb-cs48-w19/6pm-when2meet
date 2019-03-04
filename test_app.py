@@ -52,7 +52,6 @@ class BaseTestCase(unittest.TestCase):
 
 class FlaskTestCases(BaseTestCase):
     
-    '''
     @pytest.fixture(scope='module')
     def new_event():
         event_name = "First Test"
@@ -68,7 +67,7 @@ class FlaskTestCases(BaseTestCase):
     def test_create_event(new_event):    
         assert new_event.name == "First Test"
         assert isinstance(new_event.dateStart,datetime.datetime)
-    
+    '''
     def test_invalid_link(self):
         e = db.session.query(Events).filter(Events.token=="faketoken").first()
         self.assertNotEqual(e, none)
