@@ -43,7 +43,7 @@ def new_event():
     
     return e
 
-def test_invalid_link
+def test_invalid_link():
     assert db.session.query(Events).filter(Events.token=="fake_token").first() is none
 
 def test_create_event(new_event):    
