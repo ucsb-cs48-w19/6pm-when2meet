@@ -19,7 +19,10 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         db.create_all()
+        #add new event to testing database
         db.session.add(new_event)
+        #add test users to database
+        db.session.add(Users(name="joe tester",event=new_event))
         db.session.commit()
 
     def tearDown(self):
@@ -40,9 +43,14 @@ def new_event():
     
     return e
 
+def test_invalid_link
+    assert db.session.query(Events).filter(Events.token=="fake_token").first() is none
+
 def test_create_event(new_event):    
     assert new_event.name == "First Test"
     assert isinstance(new_event.dateStart,datetime.datetime)
+    
+    
 '''
 @pytest.fixture(scope='module')
 def new_event2():
