@@ -9,6 +9,7 @@ import os
 import datetime
 import random, string
 import psycopg2
+from flask.ext.testing import TestCase
 
 class BaseTestCase(TestCase):
 
