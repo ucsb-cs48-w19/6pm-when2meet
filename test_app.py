@@ -46,7 +46,7 @@ class BaseTestCase(unittest.TestCase):
             db.session.add(TimeRanges(user=u4, timeStart = date(2019,3,24), timeEnd = date(2019,3,24)))              
             db.session.commit()
                            
-   def tearDown(self):
+    def tearDown(self):
         db.session.remove()
         db.drop_all()
 
