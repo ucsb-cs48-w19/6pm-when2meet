@@ -140,14 +140,23 @@ def intToTime(t,e):
 	time=""
 		#smin = (st.year-minYear)*525600+(st.month-minMonth)*43800+(st.day-minDay)*1440+st.hour*60+st.minute
 		#	emin = (et.year-minYear)*525600+(et.month-minMonth)*43800+(et.day-minDay)*1440+et.hour*60+et.minute
-	year=math.trunc(t/525600)+minYear
-	month = math.trunc(t/43800)+minMonth
-	day=math.trunc(t/1440)+minDay
+
+	y = math.trunc(t/525600)
+	t=t-y*525600
+	m=math.trunc(t/43800)
+	t=t-m*43800
+	d=math.trunc(t/1440)
+	t=t-d*1440
+
+	year=y+minYear
+	month = m+minMonth
+	day=d+minDay
 
 
-	print("t in min",t)
+	#print("t in min",t)
 
-	t=t-(math.trunc(t/1440)*1440-math.trunc(t/43800)*43800-math.trunc(t/525600)*525600)
+
+	print("ymd",y,m,d)
 
 	print("t in min after",t)
 
