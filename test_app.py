@@ -55,7 +55,7 @@ class FlaskTestCases(BaseTestCase):
     def test_invalid_link(self):
         with self.client:
             response = self.client('events/faketoken')
-            self.assert response == render_template('404.html')
+            self.assertTrue(response == render_template('404.html'))
 
     
     
