@@ -67,6 +67,15 @@ bugs:
             <label for="name">Enter your name and click next:</label>
             <input type="text" name="username" placeholder="Click to enter name" id="username" />
             <input class="btn btn-start btn-primary btn-lg" type = "submit" value = "Next">
+            <div>
+              <br />
+              <h3>List of Attendees:</h3>
+              <ul class="list-group list-group-flush">
+                {%- for item in users %}
+                  <li class="list-group-item" style="opacity:0.7">{{item.name}}</li>
+                {%- endfor %}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -66,7 +66,8 @@ def event(event_token):
 		else:
 			dateS = e.dateStart.strftime('%m/%d/%Y')
 			dateE = e.dateEnd.strftime('%m/%d/%Y')
-			return render_template('event.html', event=e, dateS=dateS, dateE=dateE)
+			users = db.session.query(Users).filter(Users.event_id==e.id).all()
+			return render_template('event.html', event=e, users=users, dateS=dateS, dateE=dateE)
 	if request.method=='POST':
 		print('in post')
 		e = db.session.query(Events).filter(Events.token==event_token).first()
