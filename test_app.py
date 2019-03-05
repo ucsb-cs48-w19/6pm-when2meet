@@ -59,15 +59,13 @@ class BaseTestCase(unittest.TestCase):
 class FlaskTestCases(BaseTestCase):
     #test to make sure if visiting broken link 404 is thrown
     def test_invalid_link(self):
-        with self.client:
-            response = self.client('events/faketoken')
-            self.assertTrue(response == render_template('404.html'))
+        response = self.client('events/faketoken')
+        self.assertTrue(response == render_template('404.html'))
 
     #test first event where optimal time should be 12pm-1pm
     def test_get_time(self):
-        with self.client:
-            response = get_time("easy10curl")
-            self.assertEquals("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response.data)
+        response = get_time("easy10curl")
+        self.assertEquals("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response.data)
     
     
     '''
