@@ -1,8 +1,12 @@
-section {
-  padding: 156px 0 100px;
+body {
   background-image: url('../img/bluffs.jpg'); /* figure out a way to load low-res img first, then high-res*/
   background-size: cover;
   height: 100%;
+}
+
+form {
+  background-color: transparent;
+  padding: 0px 0 30px;
 }
 
   input[type=text] {
@@ -22,5 +26,5 @@ section {
   }
   
   section[id=about] {
-    padding: 100px 0 345px;
+    padding: 100px 0 200px;
   }
