@@ -36,11 +36,11 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):        
         with app.app_context():
             db.create_all()
-            e = Events(name="First Test", timeblock=1, dateStart=date(2019,3,24), dateEnd=date(2019,3,24), token="easy10curl")
+            e = Events(name="First Test", timeblock=1, dateStart=datetime.date(2019,3,24), dateEnd=datetime.date(2019,3,24), token="easy10curl")
             db.session.add(e)
             u1 = Users(name="Akira", event=e)
             db.session.add(u1)            
-            db.session.add(TimeRanges(user=u1, timeStart = datetime(2019,3,24,12,0,0), timeEnd = datetime(2019,3,24,17,0,0)))
+            db.session.add(TimeRanges(user=u1, timeStart = datetime.datetime(2019,3,24,12,0,0), timeEnd = datetime.datetime(2019,3,24,17,0,0)))
             u2 = Users(name="Mugen", event=e)
             db.session.add(u2)            
             db.session.add(TimeRanges(user=u2, timeStart = datetime(2019,3,24,7,0,0), timeEnd = datetime(2019,3,24,19,0,0)))
