@@ -92,10 +92,40 @@ window.onload = function() {
   document.getElementById("start_date").setAttribute("value", today);
   document.getElementById("end_date").setAttribute("min", today);
   document.getElementById("end_date").setAttribute("value", today);
+  
+  var dateEntered = new Date(today);
+  numberOfDaysToAdd = 15;
+  dateEntered.setDate(dateEntered.getDate() + numberOfDaysToAdd); 
+  var dd = dateEntered.getDate();
+  var mm = dateEntered.getMonth()+1; //January is 0!
+  var yyyy = dateEntered.getFullYear();
+  if(dd<10){
+    dd='0'+dd
+  } 
+  if(mm<10){
+    mm='0'+mm
+  } 
+  dateEntered = yyyy+'-'+mm+'-'+dd;
+  document.getElementById("end_date").setAttribute("max", dateEntered);
+
   document.getElementById("start_date").addEventListener("change", function(){
       var startInput = document.getElementById("start_date");
       document.getElementById("end_date").setAttribute("min", startInput.value);
-      console.log(startInput.value);
+      
+      var dateEntered = new Date(startInput.value);
+      numberOfDaysToAdd = 15;
+      dateEntered.setDate(dateEntered.getDate() + numberOfDaysToAdd); 
+      var dd = dateEntered.getDate();
+      var mm = dateEntered.getMonth()+1; //January is 0!
+      var yyyy = dateEntered.getFullYear();
+      if(dd<10){
+        dd='0'+dd
+      } 
+      if(mm<10){
+        mm='0'+mm
+      } 
+      dateEntered = yyyy+'-'+mm+'-'+dd;
+      document.getElementById("end_date").setAttribute("max", dateEntered);
     });
 }
 
