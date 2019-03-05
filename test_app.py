@@ -52,9 +52,9 @@ class BaseTestCase(unittest.TestCase):
             db.session.add(TimeRanges(user=u4, timeStart = datetime.datetime(2019,3,24,1,0,0), timeEnd = datetime.datetime(2019,3,24,23,0,0)))              
             db.session.commit()
                            
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+    #def tearDown(self):
+     #   db.session.remove()
+      #  db.drop_all()
 
 class FlaskTestCases(BaseTestCase):
     #test to make sure if visiting broken link 404 is thrown
