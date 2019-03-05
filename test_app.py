@@ -49,7 +49,7 @@ class BaseTestCase(unittest.TestCase):
             db.session.add(TimeRanges(user=u3, timeStart = datetime.datetime(2019,3,24,11,0,0), timeEnd = datetime.datetime(2019,3,24,13,0,0)))
             u4 = Users(name="Fuu", event=e)
             db.session.add(u4)            
-            db.session.add(TimeRanges(user=u4, timeStart = datetime.datetime(2019,3,24,1,0,0), timeEnd = datetime.date(2019,3,24,23,0,0)))              
+            db.session.add(TimeRanges(user=u4, timeStart = datetime.datetime(2019,3,24,1,0,0), timeEnd = datetime.datetime(2019,3,24,23,0,0)))              
             db.session.commit()
                            
     def tearDown(self):
