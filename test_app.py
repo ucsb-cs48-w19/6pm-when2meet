@@ -11,6 +11,7 @@ import random, string
 import psycopg2
 import unittest
 from app import app
+import http
 
 
 class BaseTestCase(unittest.TestCase):
