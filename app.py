@@ -169,12 +169,21 @@ def intToTime(t,e):
 			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60))+":0"+str(t % 60)+timeTag
 		else:
 			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60))+":"+str(t % 60)+timeTag
+
 	if t>=12*60:
 		timeTag=" PM"
 		if t %60 <10:
 			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-12)+":0"+str(t % 60)+timeTag
 		else:
 			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60)-12)+":"+str(t % 60)+timeTag
+
+	if t>=12*60 and t<13*60:
+		timeTag=" PM"
+		if t %60 <10:
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60))+":0"+str(t % 60)+timeTag
+		else:
+			time = str(month)+"/"+str(day)+"/"+str(year)+" "+str(math.trunc(t/60))+":"+str(t % 60)+timeTag
+
 
 
 	return str(time)
