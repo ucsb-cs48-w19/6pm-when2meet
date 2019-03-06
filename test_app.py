@@ -37,7 +37,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):        
         with app.app_context():
             db.create_all()
-            e = Events(name="First Test", timeblock=1, dateStart=datetime.date(2019,3,24), dateEnd=datetime.date(2019,3,24), token="easy10curl")
+            e = Events(name="First Test", timeblock=60, dateStart=datetime.date(2019,3,24), dateEnd=datetime.date(2019,3,24), token="easy10curl")
             db.session.add(e)
             u1 = Users(name="Akira", event=e)
             db.session.add(u1)            
@@ -59,9 +59,9 @@ class BaseTestCase(unittest.TestCase):
 
 class FlaskTestCases(BaseTestCase):
     #test to make sure if visiting broken link 404 is thrown
-    def test_invalid_link(self):
-        with app.test_request_context('events/faketoken'):
-            app.assert_template_used('hello.html')
+    #def test_invalid_link(self):
+     #   with app.test_request_context('events/faketoken'):
+      #      app.assert_template_used('hello.html')
 
     #test first event where optimal time should be 12pm-1pm
     def test_get_time(self):
@@ -69,7 +69,7 @@ class FlaskTestCases(BaseTestCase):
             render_templates = False
             response = get_time("easy10curl")
             print(response)
-            self.assertEquals("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response)
+            self.assertContains("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response)
     
     
     '''
