@@ -55,7 +55,6 @@ class BaseTestCase(unittest.TestCase):
                            
     def tearDown(self):
         db.session.remove()
-        db.drop_all()
 
 class FlaskTestCases(BaseTestCase):
     #test to make sure if visiting broken link 404 is thrown
