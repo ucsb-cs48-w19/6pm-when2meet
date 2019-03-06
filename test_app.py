@@ -83,26 +83,27 @@ class FlaskTestCases(BaseTestCase):
      #   with app.test_request_context('events/faketoken'):
       #      app.assert_template_used('hello.html')
 
-    #test first event where optimal time should be 12pm-1pm
-    def test_first_event_get_time(self):
+    
+    def test_get_time(self):
+        #test first event where optimal time should be 12pm-1pm
         with app.test_request_context('events/easy10curl'):
             render_templates = False
             response = get_time("easy10curl")
             self.assertIn("3/24/2019 0:00 PM to 3/24/2019 1:00 PM", response)
-    
-    #test second event where optimal time should be 5pm-7pm
-    def test__second_event_get_time(self):
+            
+        #test second event where optimal time should be 5pm-7pm
         with app.test_request_context('events/weekendyea'):
             render_templates = False
             response = get_time("weekendyea")
             self.assertIn("3/23/2019 5:00 PM to 3/23/2019 7:00 PM", response)
-        
-    #should return no optimal time since no overlap   
-    def test__second_event_get_time(self):
+            
+        #should return no optimal time since no overlap  
         with app.test_request_context('events/flexoclock'):
             render_templates = False
             response = get_time("flexoclock")
             self.assertIn("The optimal time to meet is not available, because there were no overlapping times", response)
+    
+
         
     '''
     @pytest.fixture(scope='module')
