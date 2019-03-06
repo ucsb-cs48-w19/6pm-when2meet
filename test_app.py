@@ -92,10 +92,10 @@ class FlaskTestCases(BaseTestCase):
     
     #test second event where optimal time should be 5pm-7pm
     def test__second_event_get_time(self):
-    with app.test_request_context('events/weekendyea'):
-        render_templates = False
-        response = get_time("weekendyea")
-        self.assertIn("3/23/2019 5:00 PM to 3/23/2019 7:00 PM", response)
+        with app.test_request_context('events/weekendyea'):
+            render_templates = False
+            response = get_time("weekendyea")
+            self.assertIn("3/23/2019 5:00 PM to 3/23/2019 7:00 PM", response)
         
     #should return no optimal time since no overlap   
     def test__second_event_get_time(self):
