@@ -89,7 +89,7 @@ class FlaskTestCases(BaseTestCase):
         with app.test_request_context('events/easy10curl'):
             render_templates = False
             response = get_time("easy10curl")
-            self.assertIn("3/24/2019 0:00 PM to 3/24/2019 1:00 PM", response)
+            self.assertIn("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response)
             
         #test second event where optimal time should be 5pm-7pm
         with app.test_request_context('events/weekendyea'):
