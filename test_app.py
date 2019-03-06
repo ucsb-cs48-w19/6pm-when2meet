@@ -37,6 +37,7 @@ class BaseTestCase(unittest.TestCase):
     def setUp(self):        
         with app.app_context():
             db.create_all()
+            #event only on single day
             e = Events(name="First Test", timeblock=60, dateStart=datetime.date(2019,3,24), dateEnd=datetime.date(2019,3,24), token="easy10curl")
             db.session.add(e)
             u1 = Users(name="Akira", event=e)
@@ -50,7 +51,27 @@ class BaseTestCase(unittest.TestCase):
             db.session.add(TimeRanges(user=u3, timeStart = datetime.datetime(2019,3,24,11,0,0), timeEnd = datetime.datetime(2019,3,24,13,0,0)))
             u4 = Users(name="Fuu", event=e)
             db.session.add(u4)            
-            db.session.add(TimeRanges(user=u4, timeStart = datetime.datetime(2019,3,24,1,0,0), timeEnd = datetime.datetime(2019,3,24,23,0,0)))              
+            db.session.add(TimeRanges(user=u4, timeStart = datetime.datetime(2019,3,24,1,0,0), timeEnd = datetime.datetime(2019,3,24,23,0,0))) 
+            
+            #event spanning multiple dates
+            e = Events(name="Dinner With The Wife", timeblock=120, dateStart=datetime.date(2019,3,22), dateEnd=datetime.date(2019,3,24), token="weekendyea")
+            db.session.add(e)
+            u1 = Users(name="Jelani", event=e)
+            db.session.add(u1)            
+            db.session.add(TimeRanges(user=u1, timeStart = datetime.datetime(2019,3,22,12,0,0), timeEnd = datetime.datetime(2019,3,23,19,0,0)))
+            u2 = Users(name="Ravyn Lenae", event=e)
+            db.session.add(u2)            
+            db.session.add(TimeRanges(user=u2, timeStart = datetime.datetime(2019,3,23,17,0,0), timeEnd = datetime.datetime(2019,3,24,19,0,0)))
+            
+            #event with no overlapping times
+            e = Events(name="Time Vir Can Stop Flexing", timeblock=20, dateStart=datetime.date(2019,4,22), dateEnd=datetime.date(2019,4,22), token="flexoclock")
+            db.session.add(e)
+            u1 = Users(name="Vir", event=e)
+            db.session.add(u1)            
+            db.session.add(TimeRanges(user=u1, timeStart = datetime.datetime(2019,4,22,12,0,0), timeEnd = datetime.datetime(2019,4,22,19,0,0)))
+            u2 = Users(name="The Haters", event=e)
+            db.session.add(u2)            
+            db.session.add(TimeRanges(user=u2, timeStart = datetime.datetime(2019,4,22,20,0,0), timeEnd = datetime.datetime(2019,4,22,23,0,0)))
             db.session.commit()
                            
     def tearDown(self):
@@ -63,13 +84,26 @@ class FlaskTestCases(BaseTestCase):
       #      app.assert_template_used('hello.html')
 
     #test first event where optimal time should be 12pm-1pm
-    def test_get_time(self):
+    def test_first_event_get_time(self):
         with app.test_request_context('events/easy10curl'):
             render_templates = False
             response = get_time("easy10curl")
             self.assertIn("3/24/2019 0:00 PM to 3/24/2019 1:00 PM", response)
     
-    
+    #test second event where optimal time should be 5pm-7pm
+    def test__second_event_get_time(self):
+    with app.test_request_context('events/weekendyea'):
+        render_templates = False
+        response = get_time("weekendyea")
+        self.assertIn("3/23/2019 5:00 PM to 3/23/2019 7:00 PM", response)
+        
+    #should return no optimal time since no overlap   
+    def test__second_event_get_time(self):
+        with app.test_request_context('events/flexoclock'):
+            render_templates = False
+            response = get_time("flexoclock")
+            self.assertIn("The optimal time to meet is not available, because there were no overlapping times", response)
+        
     '''
     @pytest.fixture(scope='module')
     def new_event():
