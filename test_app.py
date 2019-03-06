@@ -69,7 +69,7 @@ class FlaskTestCases(BaseTestCase):
             render_templates = False
             response = get_time("easy10curl")
             print(response)
-            self.assertContains("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response)
+            self.assertIn("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response)
     
     
     '''
