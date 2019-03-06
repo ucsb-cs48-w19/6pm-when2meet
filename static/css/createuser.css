@@ -26,6 +26,6 @@ form {
   }
   
   section[id=about] {
-    height: 90vh;
+    min-height: 80vh;
     padding: 100px 0 0px;
   }

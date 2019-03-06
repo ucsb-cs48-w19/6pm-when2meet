@@ -257,6 +257,7 @@ def get_time(event_token):
 		if e is None:
 			return render_template('404.html')
 		else:
+			users = db.session.query(Users).filter(Users.event_id==e.id).all()
 			#print("GETING THE FUCKIGN TIME")
 			users = db.session.query(Users).filter(Users.event==e).all()
 			#print(users)
@@ -271,20 +272,20 @@ def get_time(event_token):
 			#print(timeList)
 
 			if not timeList:
-				return render_template('getTime.html',data="not available because nobody has input times yet",ename=e.name)
+				return render_template('getTime.html',data="not available because nobody has input times yet",ename=e.name, users=users)
 
 			#print("timeList",*timeList,sep='\n')
 			overlap=overLap(timeList,e)
 			print("overlap prefilter",overlap)
 			if not overlap:
-				return render_template('getTime.html',data="not available, because there were no overlapping times",ename=e.name)
+				return render_template('getTime.html',data="not available, because there were no overlapping times",ename=e.name, users=users)
 
 			for r in overlap:
 				if r[1]-r[0]<e.timeblock:
 					overlap.remove(r)
 
 			if not overlap:
-				return render_template('getTime.html',data="not available, because none of the time ranges were long enough",ename=e.name)
+				return render_template('getTime.html',data="not available, because none of the time ranges were long enough",ename=e.name, users=users)
 
 
 			for i in range(len(overlap)):
@@ -302,7 +303,7 @@ def get_time(event_token):
 					bestRange= bestRange +" "+intToTime(r[0],e)+" to "+intToTime(r[1],e)
 
 
-			return render_template('getTime.html',data=bestRange,ename=e.name)
+			return render_template('getTime.html',data=bestRange,ename=e.name, users=users)
 
 
 @app.route('/create_event', methods=['GET','POST'])
