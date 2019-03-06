@@ -31,6 +31,7 @@ class BaseTestCase(unittest.TestCase):
         app.config['DEBUG'] = True
         #app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
         #conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        self.app = app.test_client()
         db.init_app(app)
         return app
 
@@ -60,13 +61,13 @@ class BaseTestCase(unittest.TestCase):
 class FlaskTestCases(BaseTestCase):
     #test to make sure if visiting broken link 404 is thrown
     def test_invalid_link(self):
-        self.get('/events/faketoken')
+        self.app.get('/events/faketoken')
         self.assert_template_used('hello.html')
 
     #test first event where optimal time should be 12pm-1pm
     def test_get_time(self):
         with app.test_request_context('events/easy10curl'):
-            response = self.get_time("easy10curl").data
+            response = self.app.get_time("easy10curl").data
             self.assertEquals("3/24/2019 12:00 PM to 3/24/2019 1:00 PM", response)
     
     
