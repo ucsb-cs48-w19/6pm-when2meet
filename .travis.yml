@@ -10,6 +10,10 @@ install:
 # There are many ways to do dependeing on how you want travis to run and get you coverage
 script: true
   - nosetests --with-coverage --coverage report
+  
+before_script:
+  - psql -c 'CREATE USER when2meet;' -U postgres
+  - psql -c 'CREATE DATABASE when2meet_dev;' -U postgres
 
 # command to run tests
 script:
@@ -19,9 +23,11 @@ script:
 # Note that travis will build your system and get the coverage. 
 # It cannot display, therefore coveralls becomes important to get the coverage
 # You can also use after_success
+# Find out more about after_script and after_success 
 after_script:
   - coveralls
  
 # Using codecov to get coverage
 after_success:
   - codecov
+
