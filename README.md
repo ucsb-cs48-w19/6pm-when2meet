@@ -35,9 +35,15 @@ Pip
 	$ source venv/bin/activate
 	$ pip install -r requirements.txt #to install dependencies
 	```
-- Database setup instructions - PSQL (coming soon!)
+- Database setup instructions - PSQL 
 	- Install Postgres: ```brew install postgres``` on Mac if you have Homebrew on download it through website on Windows.
 		- If you do not have Homebrew, you can install Homebrew here: https://brew.sh/ or you can install postgres manually: https://postgresapp.com/
+	- If you are using ubuntu 
+	'''
+	$ sudo apt update
+	$ sudo apt install postgresql postgresql-contrib
+	$ sudo -u postgres psql
+	'''
 	- Run postgres with: ```psql postgres``` or ```psql```
 		- Run following commands to create test database:
 			```psql
