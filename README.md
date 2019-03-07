@@ -44,7 +44,7 @@ Pip
 	$ sudo apt install postgresql postgresql-contrib
 	$ sudo -u postgres psql
 	```
-	- Run postgres with: ```psql postgres``` or ```psql```
+	- Run postgres with: ```psql postgres``` or ```psql -d postgres``` or ```psql```
 		- Run following commands to create test database:
 			```psql
 			CREATE USER when2meet WITH PASSWORD '1234';
