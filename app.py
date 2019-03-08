@@ -11,13 +11,16 @@ import random, string
 import psycopg2
 import math
 
-
+# for local .env imports
 load_dotenv()
 
 app = Flask(__name__, static_url_path='', static_folder='static') #/static folder to hold static files by default.
 
+# if env db url exists (i.e. heroku)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
+
+# setting up default db user (for local use)
 POSTGRES = {
 	'user': 'when2meet',
 	'pw': '1234',
@@ -29,7 +32,6 @@ POSTGRES = {
 DATABASE_DEFAULT = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
-
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
@@ -39,28 +41,18 @@ if DATABASE_URL is not None:
 
 db.init_app(app)
 
-print('sql config: ', app.config['SQLALCHEMY_DATABASE_URI'])
 
-# test
-# def testCreateEvent():
-# 	tb = 2
-# 	ds = datetime.datetime.now()
-# 	de = datetime.datetime.now()
-# 	t = 'ABCD'
-# 	e = Events(timeblock = tb, dateStart = ds, dateEnd = de, token = t)
-
-
+# route for returning index page
 @app.route("/")
 def index():
 	return render_template('index.html')
 
+# route for returning event page for users to create users
 @app.route('/events/<event_token>', methods=['GET', 'POST'])
 def event(event_token):
 	# show the post with the given id, the id is an integer
 	if request.method=='GET':
-		print('in get')
 		e = db.session.query(Events).filter(Events.token==event_token).first()
-		print(e)
 		if e is None:
 			return render_template('404.html')
 		else:
@@ -69,19 +61,14 @@ def event(event_token):
 			users = db.session.query(Users).filter(Users.event_id==e.id).all()
 			return render_template('event.html', event=e, users=users, dateS=dateS, dateE=dateE)
 	if request.method=='POST':
-		print('in post')
 		e = db.session.query(Events).filter(Events.token==event_token).first()
-		print(request.form)
 		username=request.form['username']
-		print(username)
-		print(e)
 		u = Users(name=username, event=e)
-		print('printing u', u)
 		db.session.add(u)
 		db.session.commit()
-		return redirect(url_for('user', event_token=event_token, user_id=str(u.id), submission_success=False)) # return render_template('userpage.html', event=e, user=u, token=event_token)
-	#return 'Post %d' % post_id
+		return redirect(url_for('user', event_token=event_token, user_id=str(u.id), submission_success=False))
 
+# route for returning user page
 @app.route('/events/<event_token>/<user_id>', methods=['GET', 'POST'])
 def user(event_token, user_id):
 	e = db.session.query(Events).filter(Events.token==event_token).first()
@@ -99,9 +86,9 @@ def user(event_token, user_id):
 		t=TimeRanges(user=u, timeStart=start_time, timeEnd=end_time)
 		db.session.add(t)
 		db.session.commit()
-		#return render_template('userpage.html', event=e, user=u, token=event_token, submission_success = True)
 		return redirect(url_for('user', event_token=event_token, user_id=str(u.id), submission_success=True))
 
+# route for returning user personalized edit page
 @app.route('/events/<event_token>/<user_id>/edit', methods=['GET', 'POST'])
 def user_edit(event_token, user_id):
 	e = db.session.query(Events).filter(Events.token==event_token).first()
@@ -110,12 +97,9 @@ def user_edit(event_token, user_id):
 	u = db.session.query(Users).filter(Users.id==user_id).first()
 	if request.method=='GET':
 		t = db.session.query(TimeRanges).filter(u.id==TimeRanges.user_id).all()
-		print(t)
-		#timelist = []
-		#for item in t:
-
 		return render_template('useredit.html', event=e, user=u, times=t)
 
+# route for deleting time post method
 @app.route('/deleteTime/<time_id>', methods=['POST'])
 def delete_time(time_id):
 	t = db.session.query(TimeRanges).filter(TimeRanges.id==time_id).first()
@@ -128,18 +112,16 @@ def delete_time(time_id):
 		db.session.commit()
 		return redirect(url_for('user_edit', event_token=e.token, user_id=str(u.id)))
 
+# func: converting time in minutes to nice stringified format
 def intToTime(t,e):
 	eStartDate=e.dateStart
-	eEndDate=e.dateEnd		#print(eStartDate,eEndDate)
+	eEndDate=e.dateEnd
 	minYear = eStartDate.year
 	minMonth = eStartDate.month
 	minDay = eStartDate.day
 
 	timeTag=""
 	time=""
-		#smin = (st.year-minYear)*525600+(st.month-minMonth)*43800+(st.day-minDay)*1440+st.hour*60+st.minute
-		#	emin = (et.year-minYear)*525600+(et.month-minMonth)*43800+(et.day-minDay)*1440+et.hour*60+et.minute
-
 	y = math.trunc(t/525600)
 	t=t-y*525600
 	m=math.trunc(t/43800)
@@ -150,14 +132,6 @@ def intToTime(t,e):
 	year=y+minYear
 	month = m+minMonth
 	day=d+minDay
-
-
-	#print("t in min",t)
-
-
-	print("ymd",y,m,d)
-
-	print("t in min after",t)
 
 	if t <60:
 		if t %60 <10:
@@ -190,6 +164,7 @@ def intToTime(t,e):
 	return str(time)
 
 
+# func: calculates overlaps over times given list of user times (assuming each element tList is a user's list of times)
 def overLap(tList,e):
 	masterSet=[]
 	userSets=[]
@@ -197,16 +172,12 @@ def overLap(tList,e):
 
 	eStartDate=e.dateStart
 	eEndDate=e.dateEnd
-	#print(eStartDate,eEndDate)
 
 	minYear = eStartDate.year
 	minMonth = eStartDate.month
 	minDay = eStartDate.day
 
-	#print(minYear,minMonth,minDay)
-
 	for i in range(len(tList)):
-		#print(tList[i])
 		tset=set()
 		for tr in tList[i]:
 			st = tr[0]
@@ -217,8 +188,6 @@ def overLap(tList,e):
 				tset.add(i)
 
 		userSets.append(tset)
-
-	#print(userSets)
 
 	masterSet=userSets[0]
 	for i in range (1,len(tList)):
@@ -245,10 +214,9 @@ def overLap(tList,e):
 		tup = (min(l),max(l))
 		cleanRetList.append(tup)
 
-	print("cleanret list",cleanRetList)
 	return cleanRetList
 
-
+# route for returning optimal time to meet
 @app.route('/events/<event_token>/getTime', methods=['GET'])
 def get_time(event_token):
 	# show the post with the given id, the id is an integer
@@ -258,9 +226,7 @@ def get_time(event_token):
 			return render_template('404.html')
 		else:
 			users = db.session.query(Users).filter(Users.event_id==e.id).all()
-			#print("GETING THE FUCKIGN TIME")
 			users = db.session.query(Users).filter(Users.event==e).all()
-			#print(users)
 			timeList=[]
 			for u in users:
 				uid=u.id
@@ -269,14 +235,11 @@ def get_time(event_token):
 				for time in t:
 					userTimes.append((time.timeStart,time.timeEnd))
 				timeList.append(userTimes)
-			#print(timeList)
 
 			if not timeList:
 				return render_template('getTime.html',data="not available because nobody has input times yet",ename=e.name, users=users)
 
-			#print("timeList",*timeList,sep='\n')
 			overlap=overLap(timeList,e)
-			print("overlap prefilter",overlap)
 			if not overlap:
 				return render_template('getTime.html',data="not available, because there were no overlapping times",ename=e.name, users=users)
 
@@ -294,7 +257,6 @@ def get_time(event_token):
 					overlap[i]=((r[0],r[0]+e.timeblock))
 
 			bestRange=""
-			print("just befoe printolap",overlap)
 			for i in range(len(overlap)):
 				r=overlap[i]
 				if i != len(overlap)-1:
@@ -305,7 +267,7 @@ def get_time(event_token):
 
 			return render_template('getTime.html',data=bestRange,ename=e.name, users=users)
 
-
+# route for creating an event
 @app.route('/create_event', methods=['GET','POST'])
 def create_event():
 	print('in-create')

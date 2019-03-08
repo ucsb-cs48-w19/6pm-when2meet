@@ -3,6 +3,7 @@ import datetime
 
 db = SQLAlchemy()
 
+# Schema for events
 class Events(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key = True)
@@ -15,6 +16,7 @@ class Events(db.Model):
     def __repr__(self):
         return '<Event {}>'.format(self.id)
 
+# Schema for Users
 class Users(db.Model):
     __tablename__ = 'users'
 
@@ -30,6 +32,7 @@ class Users(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.id)
 
+# Schema for User TimeRanges
 class TimeRanges(db.Model):
     __tablename__ = 'timeranges'
     id = db.Column(db.Integer, primary_key = True)
